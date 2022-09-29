@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Attending Participants{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <article class="fixture">
+      <header>
+        <div>
+          <h1>{{ fixture['fixture_date'] }}</h1>
+        </div>
+      </header>
+      <body>
+      {% for attendee in attendees %}
+        <p class="fixtures">{{ attendee['username'] }}</p>
+        <a class="action" href="{{ url_for('fixtures.update_fixture', id=fixture['id']) }}" >Add Subs</a>
+      {% endfor %}
+      <p><br>A total of {{ count['total'] }} people have confirmed attendance</p>
+      </body>
+    </article>
+{% endblock %}

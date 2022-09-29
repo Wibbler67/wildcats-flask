@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Create new fixture{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="fixture_date">Date</label>
+    <input type="date" name="fixture_date" id="fixture_date" value="{{ request.form['fixture_date'] }}" required>
+    <label for="match_type">Match Type</label>
+    <input name="match_type" id="match_type" value="{{ request.form['match_type'] }}" required>
+    <label for="team">Team Against</label>
+    <input name="team" id="team" value="{{ request.form['team'] }}" required>
+    <label for="location">Location</label>
+    <input name="location" id="location" value="{{ request.form['location'] }}" required>
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}{{ main_title }}{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('fixtures.create') }}">Add</a>
+  {% endif %}
+{% endblock %}
+
+{% block undernavbar %}
+    <ul>
+      <li><a href="{{ url_for('fixtures.all_fixtures') }}">All Fixtures</a></li>
+      <li><a href="{{ url_for('fixtures.upcoming_fixtures') }}">Upcoming Fixtures</a></li>
+      <li><a href="{{ url_for('fixtures.all_results') }}">Results</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+  {% for fixture in fixtures %}
+    <article class="fixture">
+      <header>
+        <div>
+          <h1>{{ fixture['fixture_date'] }} - {{ fixture['match_type'] }} Match</h1>
+        </div>
+      </header>
+      <body>
+        <p class="fixtures">Against {{ fixture['team'] }} at {{ fixture['location'] }}</p>
+        {% if fixture['result'] %}
+          <p class="fixtures">Result {{ fixture['result'] }}</p>
+        {% endif %}
+        {% if g.user['id'] == fixture['author_id'] %}
+          <a class="action" href="{{ url_for('fixtures.update_fixture', id=fixture['id']) }}">Edit Fixture</a>
+        {% endif %}
+        {% if g.user['id'] == fixture['author_id'] and fixture['fixture_date'] < current_date %}
+          {% if get_result(fixture['id']) is none %}
+            <a class="action" href="{{ url_for('results.create_result', id=fixture['id']) }}">Add Result</a>
+          {% else %}
+            <a class="action" href="{{ url_for('results.update_result', id=fixture['id']) }}">Edit Result</a>
+          {% endif %}
+        {% endif %}
+        {% if g.user['id'] and fixture['fixture_date'] > current_date %}
+          <a class="action" href="{{ url_for('attendance.create_confirm_attendance', id=fixture['id']) }}">Confirm Attendance</a>
+        {% endif %}
+        {% if g.user['id'] == fixture['author_id'] %}
+          <a class="action" href="{{ url_for('attendance.get_fixture_attendance', id=fixture['id']) }}">View Attendees</a>
+        {% endif %}
+      </body>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit Account{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" value="{{ request.form['username'] }}" placeholder="">
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email" value="{{ request.form['email'] }}" placeholder="">
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}

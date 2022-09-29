@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit Fixture{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="fixture_date">Date of Fixture</label>
+    <input type="date" name="fixture_date" id="fixture_date" value="{{ request.form['fixture_date'] }}" required>
+    <label for="team">Team Against</label>
+    <input name="team" id="team" value="{{ request.form['team'] }}" required>
+    <label for="location">Location</label>
+    <input name="location" id="location" value="{{ request.form['location'] }}" required>
+    <label for="result">Result</label>
+    <input name="result" id="result" value="{{ request.form['result'] }}" required>
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+  <form action="{{ url_for('fixtures.delete', id=fixture['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form>
+{% endblock %}

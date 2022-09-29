@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Add Subs{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="subs_paid">Subs Paid</label>
+    <input type="number" name="subs_paid" id="subs_paid" value="{{ request.form['subs_paid'] }}">
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}

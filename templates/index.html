@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}{{ main_title }}{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('fixtures.create') }}">Add</a>
+  {% endif %}
+{% endblock %}
+
+{% block undernavexpand %}
+    <ul>
+      <li><a href="{{ url_for('fixtures.all_fixtures') }}">All Fixtures</a></li>
+      <li><a href="{{ url_for('fixtures.upcoming_fixtures') }}">Upcoming Fixtures</a></li>
+      <li><a href="{{ url_for('fixtures.all_results') }}">Results</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome Wildcat</h1>
+{% endblock %}

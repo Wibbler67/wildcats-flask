@@ -1,0 +1,53 @@
+<!doctype html>
+<title>Wildcats - {% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="icon" href="{{ url_for('static', filename='images/wildcats-favicon.ico') }}">
+<!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<nav class="topnav">
+  {% if g.user %}
+    <a href="{{ url_for('account.home', id=g.user['id']) }}" class="active">Account Home</a>
+  {% else %}
+    <a href="{{ url_for('fixtures.upcoming_fixtures') }}" class="active">Fixtures</a>
+  {% endif %}
+  <!-- Navigation links (hidden by default) -->
+  <div id="myLinks">
+    {% block navbar %}{% endblock %}
+    {% if g.user %}
+      <a href="{{ url_for('fixtures.upcoming_fixtures') }}">Fixtures</a>
+      <a href="{{ url_for('auth.logout') }}">Log Out</a>
+    {% else %}
+      <a href="{{ url_for('auth.register') }}">Register</a>
+      <a href="{{ url_for('auth.login') }}">Log In</a>
+    {% endif %}
+  </div>
+  <div class="splitnav">
+    {% block undernavbar %}{% endblock %}
+  </div>
+  <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</nav>
+
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myLinks");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
+</script>

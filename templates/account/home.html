@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}User Account{% endblock %}</h1>
+{% endblock %}
+
+
+{% block undernavbar %}
+  <a class="action" href="{{ url_for('account.home_all_fixtures', id=g.user['id']) }}">All Attendance</a>
+  <a class="action" href="{{ url_for('account.home', id=g.user['id']) }}">Home</a>
+{% endblock %}
+
+
+{% block content %}
+  <article class="article">
+    <body>
+      <p>Welcome {{ g.user['username'] }}</p>
+      <a class="action" href="{{ url_for('account.edit_account', id=g.user['id']) }}">Edit Account</a>
+      <a class="action" href="{{ url_for('account.change_password', id=g.user['id']) }}">Edit Password</a>
+    <h1>Attendance</h1>
+    {% for fixture in fixture_attendance %}
+      <article class="article">
+      <p>{{ fixture['fixture_date'] }}</p>
+      <p>{{ fixture['match_type'] }} Match</p>
+        {% if current_date > fixture['fixture_date'] %}
+          <p>You {% if fixture['attending'] == 1 %} attended {% else %} haven't attended {% endif %} this match</p>
+        {% else %}
+          <p>You are {% if fixture['attending'] == 1 %} attending {% else %} not attending {% endif %} this match</p>
+        {% endif %}
+      <a class="action" href="{{ url_for('attendance.update_attendance', id=fixture['fixture_id']) }}">Edit Attendance</a>
+      {% if not loop.last %}
+        <hr>
+      {% endif %}
+        </article>
+    {% endfor %}
+    </body>
+  </article>
+{% endblock %}

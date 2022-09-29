@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>
+  {% block title %}
+    {% if get_result(fixture['id']) is none %}
+      {{ get_result(fixture['id'])[0] }}
+      Add result
+    {% else %}
+      Edit result
+      {{ get_result(fixture['id']) }}
+    {% endif %}
+  {% endblock %}
+  </h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="wildcat_legs">Wildcat Legs Won</label>
+    <input type="number" max="5" name="wildcat_legs" id="wildcat_legs" value="{{ request.form['wildcat_legs'] }}" required>
+    <label for="opposition_legs">Opposition Legs Won</label>
+    <input type="number" max="5" name="opposition_legs" id="opposition_legs" value="{{ request.form['opposition_legs'] }}" required>
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}
