@@ -6,17 +6,23 @@
 
 
 {% block undernavbar %}
-  <a class="action" href="{{ url_for('account.home_all_fixtures', id=g.user['id']) }}">All Attendance</a>
-  <a class="action" href="{{ url_for('account.home', id=g.user['id']) }}">Home</a>
+<ul>
+  <li><a class="action" href="{{ url_for('account.home_all_fixtures', id=g.user['id']) }}">Attendance</a></li>
+  <li><a class="action" href="{{ url_for('account.home', id=g.user['id']) }}">Home</a></li>
+  <li><a href="{{ url_for('fixtures.upcoming_fixtures') }}">Fixtures</a></li>
+</ul>
 {% endblock %}
 
 
 {% block content %}
   <article class="article">
     <body>
-      <p>Welcome {{ g.user['username'] }}</p>
+    <h1 class="home">User Options</h1>
+      <article class="article">
       <a class="action" href="{{ url_for('account.edit_account', id=g.user['id']) }}">Edit Account</a>
       <a class="action" href="{{ url_for('account.change_password', id=g.user['id']) }}">Edit Password</a>
+    </article>
+    <hr>
     <h1>Attendance</h1>
     {% for fixture in fixture_attendance %}
       <article class="article">

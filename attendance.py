@@ -89,7 +89,7 @@ def create_confirm_attendance(id):
             db.commit()
         return redirect(url_for("account.home", id=g.user['id']))
 
-    return render_template("attendance/confirm.html", fixture=fixture)
+    return render_template("attendance/edit.html", fixture=fixture)
 
 
 @bp.route("/<int:id>/edit_attendance", methods=["POST", "GET"])
@@ -122,4 +122,4 @@ def update_attendance(id):
             db.commit()
         return redirect(url_for("account.home", id=g.user['id']))
 
-    return render_template("attendance/confirm.html", fixture=fixture)
+    return render_template("attendance/edit.html", fixture=fixture)
