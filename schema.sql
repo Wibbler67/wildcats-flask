@@ -40,7 +40,7 @@ CREATE TABLE results (
   FOREIGN KEY (fixture_id) REFERENCES fixtures (id)
 );
 
-CREATE TABLE subs )
+CREATE TABLE subs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   attendee_id INTEGER NOT NULL,
   fixture_id INTEGER NOT NULL,
