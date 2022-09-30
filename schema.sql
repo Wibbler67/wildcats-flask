@@ -40,11 +40,11 @@ CREATE TABLE results (
   FOREIGN KEY (fixture_id) REFERENCES fixtures (id)
 );
 
-CREATE TABLE subs {
+CREATE TABLE subs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   attendee_id INTEGER NOT NULL,
   fixture_id INTEGER NOT NULL,
   amount_paid INTEGER NOT NULL,
   FOREIGN KEY (attendee_id) REFERENCES user (id),
   FOREIGN KEY (fixture_id) REFERENCES fixtures (id)
-};
+);
