@@ -35,14 +35,18 @@ def all_fixtures():
         ' JOIN results r on f.id = r.fixture_id'
         ' WHERE DATE() > fixture_date ORDER BY fixture_date ASC'
     ).fetchall()
-    last_id = fixtures[-1]['id']
+    print(fixtures)
+    if fixtures:
+        id = fixtures[-1]['id']
+    else:
+        id = 0
 
     fixtures += db.execute(
         'SELECT f.id, author_id, fixture_date, match_type, team, location'
         ' FROM fixtures f JOIN user u on f.author_id = u.id'
         ' WHERE f.id > ?'
         ' ORDER BY fixture_date ASC',
-        (last_id,)
+        (id,)
     ).fetchall()
 
     current_date = datetime.date(datetime.now())
