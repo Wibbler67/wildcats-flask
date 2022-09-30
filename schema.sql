@@ -47,4 +47,4 @@ CREATE TABLE subs {
   amount_paid INTEGER NOT NULL,
   FOREIGN KEY (attendee_id) REFERENCES user (id),
   FOREIGN KEY (fixture_id) REFERENCES fixtures (id)
-};
+);
