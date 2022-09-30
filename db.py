@@ -36,9 +36,14 @@ def seed_db():
 
     lst = []
 
-    with open("C:/Users/bengo/PycharmProjects/Flaskr/Fixture/fixture_list.csv") as csv:
-        for line in csv:
-            lst.append(line.strip("\n").split(","))
+    try:
+        with open("C:/Users/bengo/PycharmProjects/Flaskr/Fixture/fixture_list.csv") as csv:
+            for line in csv:
+                lst.append(line.strip("\n").split(","))
+    except FileNotFoundError:
+        with open("C:/Users/bengo/PycharmProjects/Flaskr/Fixture/fixture_list_seed.csv") as csv:
+            for line in csv:
+                lst.append(line.strip("\n").split(","))
 
     for fixtures in lst:
         fixtures.append(admin_id['id'])
