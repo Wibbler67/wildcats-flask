@@ -3,6 +3,7 @@ import sqlite3
 import click
 from flask import current_app, g
 from werkzeug.security import check_password_hash, generate_password_hash
+import os
 
 
 def get_db():
@@ -37,11 +38,11 @@ def seed_db():
     lst = []
 
     try:
-        with open("C:/Users/bengo/PycharmProjects/Flaskr/Fixture/fixture_list.csv") as csv:
+        with open(f"{os.path.abspath(os.getcwd())}/Fixture/fixture_list.csv") as csv:
             for line in csv:
                 lst.append(line.strip("\n").split(","))
     except FileNotFoundError:
-        with open("C:/Users/bengo/PycharmProjects/Flaskr/Fixture/fixture_list_seed.csv") as csv:
+        with open(f"{os.path.abspath(os.getcwd())}/Flaskr/Fixture/fixture_list_seed.csv") as csv:
             for line in csv:
                 lst.append(line.strip("\n").split(","))
 
