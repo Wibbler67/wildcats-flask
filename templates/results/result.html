@@ -7,8 +7,7 @@
       {{ get_result(fixture['id'])[0] }}
       Add result
     {% else %}
-      Edit result
-      {{ get_result(fixture['id']) }}
+      Edit result {{ fixture['fixture_date'] }}
     {% endif %}
   {% endblock %}
   </h1>
@@ -21,5 +20,9 @@
     <label for="opposition_legs">Opposition Legs Won</label>
     <input type="number" max="5" name="opposition_legs" id="opposition_legs" value="{{ request.form['opposition_legs'] }}" required>
     <input type="submit" value="Save">
+  </form>
+<hr>
+  <form action="{{ url_for('results.delete_result', id=fixture['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
   </form>
 {% endblock %}

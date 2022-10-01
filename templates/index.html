@@ -1,19 +1,39 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}{{ main_title }}{% endblock %}</h1>
+  <h1>{% block title %}{{ main_header }}{% endblock %}</h1>
   {% if g.user %}
+    <a class="action" href="{{ url_for('posts.create') }}">New Post</a>
   {% endif %}
+
 {% endblock %}
 
 {% block undernavbar %}
-    <ul>
-      <li><a href="{{ url_for('fixtures.all_fixtures') }}">All Fixtures</a></li>
-      <li><a href="{{ url_for('fixtures.upcoming_fixtures') }}">Upcoming Fixtures</a></li>
-      <li><a href="{{ url_for('fixtures.all_results') }}">Results</a></li>
-    </ul>
+  <ul>
+    <li><a href="{{ url_for('fixtures.upcoming_fixtures') }}">Fixtures</a></li>
+    <li><a href="{{ url_for('fixtures.all_results') }}">Results</a></li>
+  </ul>
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome Wildcat</h1>
+  <h1>Message Board</h1>
+  {% if g.user %}
+  {% for post in posts %}
+    <article class="post">
+      <header>
+        <div>
+          <h1>{{ post['title'] }}</h1>
+          <div class="about">by {{ post['username'].title() }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
+        </div>
+      </header>
+      <p class="body">{{ post['body'] }}</p>
+      {% if g.user['id'] == post['author_id'] %}
+        <a class="action" href="{{ url_for('posts.update', id=post['id']) }}">Edit</a>
+      {% endif %}
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+  {% endif %}
 {% endblock %}

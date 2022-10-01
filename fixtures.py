@@ -7,7 +7,9 @@ from datetime import datetime
 from .auth import login_required
 from .db import get_db
 
-bp = Blueprint('fixtures', __name__)
+import operator
+
+bp = Blueprint('fixtures', __name__, url_prefix="/fixtures")
 
 
 @bp.route("/upcoming_fixtures")
@@ -35,19 +37,25 @@ def all_fixtures():
         ' JOIN results r on f.id = r.fixture_id'
         ' WHERE DATE() > fixture_date ORDER BY fixture_date ASC'
     ).fetchall()
-    print(fixtures)
+
     if fixtures:
-        id = fixtures[-1]['id']
+        ids = tuple(int(fixture['id']) for fixture in fixtures)
+        not_query = f"NOT IN {ids}"
+        if len(ids) <= 1:
+            print(ids)
+            not_query = f"!= {ids[0]}"
     else:
-        id = 0
+        not_query = "!= 0"
 
     fixtures += db.execute(
         'SELECT f.id, author_id, fixture_date, match_type, team, location'
         ' FROM fixtures f JOIN user u on f.author_id = u.id'
-        ' WHERE f.id > ?'
+        f' WHERE f.id {not_query}'
         ' ORDER BY fixture_date ASC',
-        (id,)
+        ()
     ).fetchall()
+
+    fixtures.sort(key=operator.itemgetter('fixture_date'))
 
     current_date = datetime.date(datetime.now())
     main_title = "All Fixtures"
@@ -61,8 +69,25 @@ def all_results():
         'SELECT f.id, author_id, fixture_date, match_type, team, location, result'
         ' FROM fixtures f JOIN user u on f.author_id = u.id'
         ' JOIN results r on f.id = r.fixture_id'
-        ' WHERE DATE() > fixture_date ORDER BY fixture_date ASC'
+        ' WHERE fixture_date < DATE() ORDER BY fixture_date ASC'
     ).fetchall()
+
+    if fixtures:
+        ids = tuple(int(fixture['id']) for fixture in fixtures)
+        not_query = f"NOT IN {ids}"
+        if len(ids) <= 1:
+            print(ids)
+            not_query = f"!= {ids[0]}"
+    else:
+        not_query = "!= 0"
+
+    fixtures += db.execute(
+        'SELECT f.id, author_id, fixture_date, match_type, team, location'
+        ' FROM fixtures f JOIN user u on f.author_id = u.id'
+        f' WHERE fixture_date < DATE() AND f.id {not_query} ORDER BY fixture_date ASC'
+    ).fetchall()
+
+    fixtures.sort(key=operator.itemgetter('fixture_date'))
 
     current_date = datetime.date(datetime.now())
     main_title = "All Results"
@@ -126,7 +151,6 @@ def update_fixture(id):
         match_type = request.form['match_type']
         team = request.form['team']
         location = request.form['location']
-        result = request.form['result']
         error = None
 
         if not fixture_date:

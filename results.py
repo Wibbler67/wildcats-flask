@@ -6,14 +6,15 @@ from .auth import login_required
 from .db import get_db
 from.fixtures import get_fixture
 
-bp = Blueprint('results', __name__)
+bp = Blueprint('results', __name__, url_prefix="/results")
 
 
 def get_result(id):
     db = get_db()
     query = db.execute(
-        "SELECT result "
-        " FROM results"
+        "SELECT r.id, result, fixture_date "
+        " FROM results r"
+        " JOIN fixtures f on r.fixture_id = f.id"
         " WHERE fixture_id = ?",
         (id,)
     ).fetchone()
@@ -88,8 +89,8 @@ def update_result(id):
 @bp.route('/<int:id>/results/delete', methods=['POST'])
 @login_required
 def delete_result(id):
-    get_result(id)
+    result = get_result(id)
     db = get_db()
-    db.execute('DELETE FROM results WHERE id = ?', (id,))
+    db.execute('DELETE FROM results WHERE id = ?', (result['id'],))
     db.commit()
-    return redirect(url_for('fixtures.index'))
+    return redirect(url_for('index'))

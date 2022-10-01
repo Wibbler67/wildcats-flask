@@ -6,11 +6,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <nav class="topnav">
-  {% if g.user %}
-    <a href="{{ url_for('index') }}" class="active">Home</a>
-  {% else %}
-    <a href="{{ url_for('fixtures.upcoming_fixtures') }}" class="active">Fixtures</a>
-  {% endif %}
+  <a href="{{ url_for('index') }}" class="active">Home</a>
   <!-- Navigation links (hidden by default) -->
   <div id="myLinks">
     {% block navbar %}{% endblock %}

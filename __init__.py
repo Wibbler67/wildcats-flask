@@ -21,8 +21,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    app.add_url_rule('/', endpoint='index')
-
     from . import db
     db.init_app(app)
 
@@ -41,14 +39,14 @@ def create_app(test_config=None):
     from . import results
     app.register_blueprint(results.bp)
 
+    from . import posts
+    app.register_blueprint(posts.bp)
+
+    from . import home
+    app.register_blueprint(home.bp)
+
+    app.add_url_rule('/', endpoint='index')
+
     app.jinja_env.globals.update(get_result=results.get_result)
-
-    @app.template_filter('ctime')
-    def timectime(s):
-        return time.ctime(s)
-
-    @app.route("/")
-    def index():
-        return render_template("index.html")
 
     return app

@@ -32,7 +32,7 @@ def home(id):
     return render_template("account/home.html", id=id, fixture_attendance=fixture_attendance, current_date=current_date)
 
 
-@bp.route("<int:id>/home/all_fixtures", methods=["GET"])
+@bp.route("<int:id>/all_fixtures", methods=["GET"])
 @login_required
 def home_all_fixtures(id):
 
