@@ -7,8 +7,8 @@
 
 {% block undernavbar %}
 <ul>
-  <li><a class="action" href="{{ url_for('account.home_all_fixtures', id=g.user['id']) }}">Attendance</a></li>
-  <li><a class="action" href="{{ url_for('account.home', id=g.user['id']) }}">Home</a></li>
+  <li><a class="action" href="{{ url_for('account.account_attendance', id=g.user['id']) }}">Attendance</a></li>
+  <li><a class="action" href="{{ url_for('account.account', id=g.user['id']) }}">Home</a></li>
   <li><a href="{{ url_for('fixtures.upcoming_fixtures') }}">Fixtures</a></li>
 </ul>
 {% endblock %}
@@ -17,13 +17,8 @@
 {% block content %}
   <article class="article">
     <body>
-    <h1 class="home">User Options</h1>
-      <article class="article">
-      <a class="action" href="{{ url_for('account.edit_account', id=g.user['id']) }}">Edit Account</a>
-      <a class="action" href="{{ url_for('account.change_password', id=g.user['id']) }}">Edit Password</a>
-    </article>
-    <hr>
     <h1>Attendance</h1>
+    {% if fixture_attendance %}
     {% for fixture in fixture_attendance %}
       <article class="article">
       <p>{{ fixture['fixture_date'] }}</p>
@@ -39,6 +34,10 @@
       {% endif %}
         </article>
     {% endfor %}
+    {% else %}
+      <p>You haven't confirmed any availability</p>
+      <p>Go to the <a href="{{ url_for('fixtures.upcoming_fixtures') }}">Fixtures</a> page to confirm availability </p>
+    {% endif %}
     </body>
   </article>
 {% endblock %}

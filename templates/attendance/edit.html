@@ -12,4 +12,8 @@
     <input type="radio" value="no" name="confirmation" id="no_confirmation">
     <input type="submit" value="submit">
   </form>
+  <hr>
+  <form action="{{ url_for('attendance.delete_attendance', fixture_id=fixture['id'], user_id=g.user['id'],) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form>
 {% endblock %}

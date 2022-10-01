@@ -87,7 +87,7 @@ def create_confirm_attendance(id):
 
             )
             db.commit()
-        return redirect(url_for("account.home", id=g.user['id']))
+        return redirect(url_for("fixtures.all_fixtures", id=g.user['id']))
 
     return render_template("attendance/edit.html", fixture=fixture)
 
@@ -120,6 +120,18 @@ def update_attendance(id):
                 (attendance, g.user['id'], fixture['id'])
             )
             db.commit()
-        return redirect(url_for("account.home", id=g.user['id']))
+        return redirect(url_for("account.account", id=g.user['id']))
 
     return render_template("attendance/edit.html", fixture=fixture)
+
+
+@bp.route('/<int:fixture_id>/<int:user_id>/delete', methods=['POST'])
+def delete_attendance(user_id, fixture_id):
+    db = get_db()
+    db.execute(
+        'DELETE FROM attendance WHERE attendee_id = ? and fixture_id = ?',
+        (user_id, fixture_id)
+        )
+    db.commit()
+
+    return redirect(url_for("account.account_attendance", id=g.user['id']))

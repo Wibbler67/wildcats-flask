@@ -51,7 +51,7 @@ def create_result(id):
                 (id, wildcat_legs, opposition_legs, result)
             )
             db.commit()
-            return redirect(url_for('fixtures.all_results'))
+            return redirect(url_for('fixtures.all_fixtures'))
 
     return render_template('results/result.html', fixture=fixture)
 

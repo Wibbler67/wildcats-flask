@@ -11,9 +11,9 @@ from datetime import datetime
 bp = Blueprint('account', __name__, url_prefix="/account")
 
 
-@bp.route("<int:id>/home", methods=["GET"])
+@bp.route("<int:id>/", methods=["GET"])
 @login_required
-def home(id):
+def account(id):
 
     if id != g.user['id']:
         abort(403)
@@ -29,12 +29,12 @@ def home(id):
     ).fetchall()
     current_date = datetime.date(datetime.now())
 
-    return render_template("account/home.html", id=id, fixture_attendance=fixture_attendance, current_date=current_date)
+    return render_template("account/account.html", id=id, fixture_attendance=fixture_attendance, current_date=current_date)
 
 
-@bp.route("<int:id>/all_fixtures", methods=["GET"])
+@bp.route("<int:id>/attendance", methods=["GET"])
 @login_required
-def home_all_fixtures(id):
+def account_attendance(id):
 
     if id != g.user['id']:
         abort(403)
@@ -50,7 +50,8 @@ def home_all_fixtures(id):
     ).fetchall()
     current_date = datetime.date(datetime.now())
 
-    return render_template("account/home.html", id=id, fixture_attendance=fixture_attendance, current_date=current_date)
+    return render_template("account/account-attendance.html",
+                           id=id, fixture_attendance=fixture_attendance, current_date=current_date)
 
 
 @bp.route("<int:id>/edit_account", methods=["GET", "POST"])
@@ -81,7 +82,7 @@ def edit_account(id):
                 return redirect(url_for("account.get", id=g.user['id']))
         flash(error)
 
-    return render_template("account/home.html", id=id)
+    return render_template("account/account.html", id=id)
 
 
 @bp.route("<int:id>/change_password", methods=["GET", "POST"])
