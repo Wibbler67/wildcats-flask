@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask
 
 
 def create_app(test_config=None):
@@ -23,25 +23,25 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    from . import auth
+    from .app_blueprint import auth
     app.register_blueprint(auth.bp)
 
-    from . import fixtures
+    from .app_blueprint import fixtures
     app.register_blueprint(fixtures.bp)
 
-    from . import attendance
+    from .app_blueprint import attendance
     app.register_blueprint(attendance.bp)
 
-    from . import account
+    from .app_blueprint import account
     app.register_blueprint(account.bp)
 
-    from . import results
+    from .app_blueprint import results
     app.register_blueprint(results.bp)
 
-    from . import posts
+    from .app_blueprint import posts
     app.register_blueprint(posts.bp)
 
-    from . import home
+    from .app_blueprint import home
     app.register_blueprint(home.bp)
 
     app.add_url_rule('/', endpoint='index')

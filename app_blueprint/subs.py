@@ -3,7 +3,7 @@ from flask import (
 )
 
 from .auth import login_required
-from .db import get_db
+from ..db import get_db
 from .fixtures import get_fixture
 
 bp = Blueprint('subs', __name__, url_prefix="/subs")
