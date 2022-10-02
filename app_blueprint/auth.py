@@ -97,3 +97,15 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
+
+def admin_login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user['is_admin'] == 0:
+            flash("User action not permitted")
+            return redirect(url_for('index'))
+
+        return view(**kwargs)
+
+    return wrapped_view

@@ -9,7 +9,8 @@ CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email TEXT UNIQUE,
   username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
+  password TEXT NOT NULL,
+  is_admin INTEGER
 );
 
 CREATE TABLE fixtures (
@@ -41,15 +42,6 @@ CREATE TABLE results (
   FOREIGN KEY (fixture_id) REFERENCES fixtures (id)
 );
 
-CREATE TABLE subs (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  attendee_id INTEGER NOT NULL,
-  fixture_id INTEGER NOT NULL,
-  amount_paid INTEGER NOT NULL,
-  FOREIGN KEY (attendee_id) REFERENCES user (id),
-  FOREIGN KEY (fixture_id) REFERENCES fixtures (id)
-);
-
 CREATE TABLE post (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   author_id INTEGER NOT NULL,
@@ -57,4 +49,13 @@ CREATE TABLE post (
   title TEXT NOT NULL,
   body TEXT NOT NULL,
   FOREIGN KEY (author_id) REFERENCES user (id)
+);
+
+CREATE TABLE subs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  attendee_id INTEGER NOT NULL,
+  fixture_id INTEGER NOT NULL,
+  amount_paid INTEGER NOT NULL,
+  FOREIGN KEY (attendee_id) REFERENCES user (id),
+  FOREIGN KEY (fixture_id) REFERENCES fixtures (id)
 );

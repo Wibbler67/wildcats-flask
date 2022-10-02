@@ -44,6 +44,12 @@ def create_app(test_config=None):
     from .app_blueprint import home
     app.register_blueprint(home.bp)
 
+    from .app_blueprint import subs
+    app.register_blueprint(subs.bp)
+
+    from .app_blueprint import admin
+    app.register_blueprint(admin.bp)
+
     app.add_url_rule('/', endpoint='index')
 
     app.jinja_env.globals.update(get_result=results.get_result)
