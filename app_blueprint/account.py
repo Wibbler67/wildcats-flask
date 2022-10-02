@@ -4,7 +4,7 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from .auth import login_required, check_password_hash, generate_password_hash
-from .db import get_db
+from ..db import get_db
 from .fixtures import get_fixture
 from datetime import datetime
 

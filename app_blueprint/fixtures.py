@@ -5,7 +5,7 @@ from werkzeug.exceptions import abort
 from datetime import datetime
 
 from .auth import login_required
-from .db import get_db
+from ..db import get_db
 
 import operator
 
