@@ -27,8 +27,8 @@ def close_db(e=None):
 def seed_db():
     db = get_db()
 
-    admin_account = ["admin@example.com", "admin", generate_password_hash("password")]
-    db.execute("INSERT INTO user (email, username, password) VALUES (?, ?, ?)", admin_account)
+    admin_account = ["admin@example.com", "admin", generate_password_hash("password"), 1]
+    db.execute("INSERT INTO user (email, username, password, is_admin) VALUES (?, ?, ?, ?)", admin_account)
     db.commit()
 
     admin_id = db.execute(

@@ -11,6 +11,20 @@ from .fixtures import get_fixture
 bp = Blueprint('attendance', __name__, url_prefix="/attendance")
 
 
+def get_attending(fixture_id):
+
+    attendees = get_db().execute(
+        'SELECT username'
+        ' FROM attendance a'
+        ' JOIN user u ON u.id = a.attendee_id '
+        ' JOIN fixtures f ON f.id = a.fixture_id '
+        ' WHERE f.id = ? and a.attending = 1 ',
+        (fixture_id,)
+    ).fetchall()
+
+    return attendees
+
+
 def check_if_already_registered(user_id, fixture_id):
     db = get_db()
     already_registered = db.execute(
@@ -30,14 +44,7 @@ def check_if_already_registered(user_id, fixture_id):
 def get_fixture_attendance(id):
     fixture = get_fixture(id)
 
-    attendees = get_db().execute(
-        'SELECT username'
-        ' FROM attendance a'
-        ' JOIN user u ON u.id = a.attendee_id '
-        ' JOIN fixtures f ON f.id = a.fixture_id '
-        ' WHERE f.id = ? and a.attending = 1 ',
-        (id,)
-    ).fetchall()
+    attendees = get_attending(id)
 
     count = get_db().execute(
         'SELECT count(*) as total '

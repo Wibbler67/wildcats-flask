@@ -8,7 +8,7 @@
 {% block undernavbar %}
 <ul>
   <li><a class="action" href="{{ url_for('account.account_attendance', id=g.user['id']) }}">Attendance</a></li>
-  <li><a class="action" href="{{ url_for('account.account', id=g.user['id']) }}">Home</a></li>
+  <li><a class="action" href="{{ url_for('account.account', id=g.user['id']) }}">User Home</a></li>
   <li><a href="{{ url_for('fixtures.upcoming_fixtures') }}">Fixtures</a></li>
 </ul>
 {% endblock %}
