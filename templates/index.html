@@ -12,10 +12,6 @@
   <ul>
     <li><a href="{{ url_for('fixtures.upcoming_fixtures') }}">Fixtures</a></li>
     <li><a href="{{ url_for('fixtures.all_results') }}">Results</a></li>
-    {% if g.user['is_admin'] == 1 %}
-
-      <li class="active">You are an Admin</li>
-    {% endif %}
   </ul>
 {% endblock %}
 

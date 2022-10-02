@@ -3,10 +3,20 @@ from flask import (
 )
 
 from .auth import login_required, admin_login_required
-from ..db import get_db
+from .db import get_db
 from .attendance import get_attending
 
 bp = Blueprint('subs', __name__, url_prefix="/subs")
+
+
+def get_total_subs():
+    db = get_db()
+    total = db.execute(
+        'SELECT sum(amount_paid) as total'
+        ' FROM subs '
+    ).fetchone()
+
+    return total
 
 
 @bp.route("/<int:id>/register", methods=["GET", "POST"])
@@ -63,9 +73,6 @@ def view_subs():
         ' ORDER BY fixture_date ASC'
     ).fetchall()
 
-    total = db.execute(
-        'SELECT sum(amount_paid) as total'
-        ' FROM subs '
-    ).fetchone()
+    total = get_total_subs()
 
     return render_template("subs/subs_index.html", fixtures=fixtures, total=total)

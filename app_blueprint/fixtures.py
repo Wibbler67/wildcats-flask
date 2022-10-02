@@ -5,7 +5,7 @@ from werkzeug.exceptions import abort
 from datetime import datetime
 
 from .auth import login_required
-from ..db import get_db
+from .db import get_db
 
 import operator
 
@@ -17,7 +17,7 @@ def upcoming_fixtures():
     db = get_db()
     fixtures = db.execute(
         'SELECT f.id, author_id, fixture_date, match_type, team, location '
-        ' FROM fixtures f JOIN user u on f.author_id = u.id '
+        ' FROM fixtures f'
         ' WHERE fixture_date > DATE() ORDER BY fixture_date ASC'
         ' LIMIT 5'
     ).fetchall()
@@ -33,7 +33,7 @@ def all_fixtures():
 
     fixtures = db.execute(
         'SELECT f.id, author_id, fixture_date, match_type, team, location, result'
-        ' FROM fixtures f JOIN user u on f.author_id = u.id'
+        ' FROM fixtures f'
         ' JOIN results r on f.id = r.fixture_id'
         ' WHERE DATE() > fixture_date ORDER BY fixture_date ASC'
     ).fetchall()
@@ -49,7 +49,7 @@ def all_fixtures():
 
     fixtures += db.execute(
         'SELECT f.id, author_id, fixture_date, match_type, team, location'
-        ' FROM fixtures f JOIN user u on f.author_id = u.id'
+        ' FROM fixtures f'
         f' WHERE f.id {not_query}'
         ' ORDER BY fixture_date ASC',
         ()
@@ -67,7 +67,7 @@ def all_results():
     db = get_db()
     fixtures = db.execute(
         'SELECT f.id, author_id, fixture_date, match_type, team, location, result'
-        ' FROM fixtures f JOIN user u on f.author_id = u.id'
+        ' FROM fixtures f '
         ' JOIN results r on f.id = r.fixture_id'
         ' WHERE fixture_date < DATE() ORDER BY fixture_date ASC'
     ).fetchall()
@@ -83,7 +83,7 @@ def all_results():
 
     fixtures += db.execute(
         'SELECT f.id, author_id, fixture_date, match_type, team, location'
-        ' FROM fixtures f JOIN user u on f.author_id = u.id'
+        ' FROM fixtures f'
         f' WHERE fixture_date < DATE() AND f.id {not_query} ORDER BY fixture_date ASC'
     ).fetchall()
 
@@ -127,7 +127,7 @@ def create():
 def get_fixture(id, check_author=True):
     fixture = get_db().execute(
         'SELECT f.id, author_id, fixture_date, match_type, team, location'
-        ' FROM fixtures f JOIN user u ON f.author_id = u.id'
+        ' FROM fixtures f'
         ' WHERE f.id = ?',
         (id,)
     ).fetchone()

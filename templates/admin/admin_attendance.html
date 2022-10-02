@@ -10,7 +10,7 @@
       <label for="username">Username</label>
       <p>Choose Username
         <select name="username" required>
-          {% for user in users_attending %}
+          {% for user in users %}
             <option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>
           {% endfor %}
         </select>

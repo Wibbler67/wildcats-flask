@@ -2,19 +2,52 @@
 
 {% block header %}
   <h1>{% block title %}{{ main_title }}{% endblock %}</h1>
-  {% if g.user %}
-    <a class="action" href="{{ url_for('fixtures.create') }}">Add</a>
-  {% endif %}
 {% endblock %}
 
 {% block undernavbar %}
     <ul>
       <li><a href="{{ url_for('fixtures.upcoming_fixtures') }}">Fixtures</a></li>
-      <li><a href="{{ url_for('subs.view_subs') }}">Subs</a></li>
       <li><a href="{{ url_for('fixtures.all_results') }}">Results</a></li>
+      <li><a href="{{ url_for('subs.view_subs') }}">Subs</a></li>
     </ul>
 {% endblock %}
 
 {% block content %}
-
+  <div class="admin_grid">
+    <div>
+      <h1>Upcoming Fixtures</h1>
+      <hr>
+      {% for fixture in fixtures %}
+      <article>
+        <h1>{{ fixture['fixture_date'] }} - {{ fixture['match_type'] }} Match</h1>
+        {% if fixture['total'] %}
+          <p>There are {{ fixture['total'] }} people that have expressed availability</p>
+        {% else %}
+          <p>No expressed availability</p>
+        {% endif %}
+        <a href="{{ url_for('admin.register_user_attendance', id=fixture['id']) }}">Add user attendance</a>
+      </article>
+      {% if not loop.last %}
+      <hr>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div>
+      <h1>Previous Results</h1>
+      <hr>
+      {% for result in results %}
+      <article>
+        <h1>{{ result['fixture_date'] }} - {{ result['match_type'] }} Match</h1>
+        <p>{% if result['result'] == "W" %} Win {% else %} Loss {% endif %}</p>
+      </article>
+      {% endfor %}
+    </div>
+    <div>
+      <article>
+        <h1>Total Subs Gathered</h1>
+        <hr>
+        <p>Total Subs Gathered: {{ total_subs[0] }}</p>
+      </article>
+    </div>
+  </div>
 {% endblock %}

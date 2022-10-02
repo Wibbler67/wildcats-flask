@@ -1,9 +1,8 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, render_template
 )
-from werkzeug.exceptions import abort
 
-from ..db import get_db
+from .db import get_db
 
 bp = Blueprint('home', __name__)
 

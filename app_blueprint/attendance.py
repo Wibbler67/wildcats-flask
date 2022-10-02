@@ -1,14 +1,29 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for
 )
 
 from werkzeug.exceptions import abort
 
 from .auth import login_required
-from ..db import get_db
+from .db import get_db
 from .fixtures import get_fixture
 
 bp = Blueprint('attendance', __name__, url_prefix="/attendance")
+
+
+def get_attendance():
+
+    attendees = get_db().execute(
+        'SELECT count(*) as total'
+        ' FROM attendance a'
+        ' JOIN user u ON u.id = a.attendee_id '
+        ' JOIN fixtures f ON f.id = a.fixture_id '
+        ' WHERE a.attending = 1 '
+        ' GROUP BY f.id',
+        ()
+    ).fetchall()
+
+    return attendees
 
 
 def get_attending(fixture_id):

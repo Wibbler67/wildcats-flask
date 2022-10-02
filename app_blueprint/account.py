@@ -1,11 +1,10 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
 
 from .auth import login_required, check_password_hash, generate_password_hash
-from ..db import get_db
-from .fixtures import get_fixture
+from .db import get_db
 from datetime import datetime
 
 bp = Blueprint('account', __name__, url_prefix="/account")

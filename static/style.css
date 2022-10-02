@@ -187,3 +187,18 @@ input[type=submit] {
 .home h1 {
   font-size: 1.5rem;
 }
+@media only screen and (max-width: 600px) {
+
+  div.admin_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  }
+}
+
+.admin_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+
+}

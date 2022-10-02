@@ -1,12 +1,31 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, redirect, render_template, request, url_for
 )
 
 from .auth import login_required
-from ..db import get_db
-from.fixtures import get_fixture
+from .db import get_db
+from .fixtures import get_fixture
 
 bp = Blueprint('results', __name__, url_prefix="/results")
+
+
+def get_results(limit=None):
+
+    limit_query = ""
+
+    if limit is not None:
+        limit_query = f"LIMIT {limit}"
+
+    db = get_db()
+    query = db.execute(
+        "SELECT r.id, result, fixture_date "
+        " FROM results r"
+        " JOIN fixtures f on r.fixture_id = f.id"
+        f" {limit_query}",
+        ()
+    ).fetchall()
+
+    return query
 
 
 def get_result(id):
