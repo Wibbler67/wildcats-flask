@@ -13,7 +13,8 @@ RUN     pip install -r requirements.txt
 EXPOSE  5000
 
 WORKDIR /
-# Run this on the container start for testing
-
+# Comment this out if you don't need the db wiped and re-seeded
 RUN  ["flask", "--app", "flask-app", "init-db"]
+
+# This will run the app
 CMD ["flask", "--app", "flask-app", "run", "--host=0.0.0.0"]
