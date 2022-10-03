@@ -19,48 +19,6 @@ def get_total_subs():
     return total
 
 
-@bp.route("/<int:id>/register", methods=["GET", "POST"])
-@login_required
-@admin_login_required
-def add_player_subs(id):
-    db = get_db()
-
-    users_attending = get_attending(id)
-
-    if request.method == "POST":
-        username = request.form.getlist("username[]")
-        subs_paid = request.form.getlist("subs_paid[]")
-        user_subs = [{"user": username[i], "subs": subs_paid[i]} for i in range(len(username))]
-
-        for user in user_subs:
-            user['id'] = db.execute(
-                'SELECT id FROM user where username = ?', (user['user'],)
-            ).fetchone()['id']
-
-        error = None
-
-        if len(subs_paid) < 0:
-            error = "Subs amount is required"
-
-        if len(username) < 0:
-            error = "A Username is required"
-
-        if error is not None:
-            flash(error)
-        else:
-            for user in user_subs:
-                db = get_db()
-                db.execute(
-                    'INSERT INTO subs (attendee_id, fixture_id, amount_paid)'
-                    ' VALUES (?, ?, ?)',
-                    (user['id'], id, user['subs'])
-                )
-                db.commit()
-        return redirect(url_for("account.account", id=g.user['id']))
-
-    return render_template("subs/admin-register-subs.html", users_attending=users_attending)
-
-
 @bp.route("/view_subs", methods=["GET"])
 @admin_login_required
 def view_subs():

@@ -1,14 +1,29 @@
 import operator
 from flask import (
-    Blueprint, render_template
+    Blueprint, render_template, request, flash, redirect, url_for, g
 )
 
-from .auth import admin_login_required
+from .auth import admin_login_required, login_required
 from .subs import get_total_subs
 from .results import get_results
-from.db import get_db
+from .attendance import check_if_already_registered, get_attending
+from .fixtures import get_fixture
+from .db import get_db
 
 bp = Blueprint('admin', __name__, url_prefix="/admin")
+
+
+def get_user_id(username):
+    db = get_db()
+
+    user_row = db.execute(
+        "SELECT id "
+        " FROM user"
+        " WHERE username == ?",
+        (username,)
+    ).fetchone()
+
+    return user_row['id']
 
 
 def get_all_subs(limit=None):
@@ -111,5 +126,93 @@ def admin_home():
 @bp.route("/admin/<int:id>/user_attendance", methods=["GET", "POST"])
 @admin_login_required
 def register_user_attendance(id):
+    fixture = get_fixture(id)
+    db = get_db()
 
-    return render_template("admin/admin_attendance.html")
+    users = db.execute(
+        "Select username "
+        " FROM user"
+    )
+
+    if request.method == "POST":
+        attendances = request.form.getlist('confirmation')
+        usernames = request.form.getlist('username')
+
+        error = None
+
+        if attendances is None:
+            error = "Attendance confirmation is required"
+
+        attendees = [{"user": usernames[i], "attendance": attendances[i]} for i in range(len(attendances))]
+
+        for user in attendees:
+
+            if user['attendance'] == "yes":
+                user['attendance'] = 1
+            else:
+                user['attendance'] = 0
+
+            user['id'] = get_user_id(user['user'])
+
+            already_registered = check_if_already_registered(get_user_id(user['user']), fixture['id'])
+
+            if already_registered is not None:
+                error = "Attendance already confirmed"
+
+        if error is not None:
+            flash(error)
+        else:
+            for user in attendees:
+                db = get_db()
+                db.execute(
+                    'INSERT INTO attendance (attendee_id, fixture_id, attending)'
+                    ' VALUES (?, ?, ?)',
+                    (user['id'], fixture['id'], user['attendance'])
+                )
+                db.commit()
+
+        return redirect(url_for("admin.admin_home"))
+
+    return render_template("admin/admin_attendance.html", users=users, fixture=fixture)
+
+
+@bp.route("/subs/<int:id>/register", methods=["GET", "POST"])
+@login_required
+@admin_login_required
+def add_player_subs(id):
+    db = get_db()
+
+    users_attending = get_attending(id)
+
+    if request.method == "POST":
+        username = request.form.getlist("username[]")
+        subs_paid = request.form.getlist("subs_paid[]")
+        user_subs = [{"user": username[i], "subs": subs_paid[i]} for i in range(len(username))]
+
+        for user in user_subs:
+            user['id'] = db.execute(
+                'SELECT id FROM user where username = ?', (user['user'],)
+            ).fetchone()['id']
+
+        error = None
+
+        if len(subs_paid) < 0:
+            error = "Subs amount is required"
+
+        if len(username) < 0:
+            error = "A Username is required"
+
+        if error is not None:
+            flash(error)
+        else:
+            for user in user_subs:
+                db = get_db()
+                db.execute(
+                    'INSERT INTO subs (attendee_id, fixture_id, amount_paid)'
+                    ' VALUES (?, ?, ?)',
+                    (user['id'], id, user['subs'])
+                )
+                db.commit()
+        return redirect(url_for("account.account", id=g.user['id']))
+
+    return render_template("admin/admin-register-subs.html", users_attending=users_attending)

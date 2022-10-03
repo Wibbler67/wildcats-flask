@@ -45,7 +45,7 @@
           <a class="action" href="{{ url_for('attendance.get_fixture_attendance', id=fixture['id']) }}">View Attendees</a>
         {% endif %}
         {% if g.user['is_admin'] == 1 %}
-          <a class="action" href="{{ url_for('subs.add_player_subs', id=fixture['id']) }}">Register Player Subs</a>
+          <a class="action" href="{{ url_for('admin.add_player_subs', id=fixture['id']) }}">Register Player Subs</a>
         {% endif %}
       </body>
     </article>

@@ -21,7 +21,7 @@
       <article>
         <h1>{{ fixture['fixture_date'] }} - {{ fixture['match_type'] }} Match</h1>
         {% if fixture['total'] %}
-          <p>There are {{ fixture['total'] }} people that have expressed availability</p>
+          <p>There {% if fixture['total'] == 1 %} is {% else %} are {% endif %}{{ fixture['total'] }} people that have expressed availability</p>
         {% else %}
           <p>No expressed availability</p>
         {% endif %}
@@ -57,8 +57,11 @@
       <article>
         <h1>{{ subs['fixture_date'] }} - {{ subs['match_type'] }} Match</h1>
         <p>{% if not subs['total'] %}No users have paid subs {% else %}{{ subs['total'] }}{% endif %}</p>
-        <a class="action" href="{{ url_for('subs.add_player_subs', id=subs['id']) }}">Register Player Subs</a>
+        <a class="action" href="{{ url_for('admin.add_player_subs', id=subs['id']) }}">Register Player Subs</a>
       </article>
+      {% if not loop.last %}
+      <hr>
+      {% endif %}
       {% endfor %}
       <hr>
       <article>
