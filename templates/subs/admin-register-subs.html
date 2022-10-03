@@ -2,25 +2,46 @@
 
 {% block header %}
 <h1>{% block title %}Add Subs{% endblock %}</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <div>
+    <div class="input-wrapper">
       <label for="username">Username</label>
-      <p>Choose Username
-        <select name="username" required>
+      <p>Choose User
+        <select name="username[]" required>
           {% for user in users_attending %}
             <option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>
           {% endfor %}
+            <option value="none-specified" id="none">None-specified</option>
         </select>
       </p>
-      {% for user in user_attendance %}
-        <p>{{ user['username'] }}</p>
-      {% endfor %}
       <label for="subs_paid">Subs Paid</label>
-      <input type="number" name="subs_paid" id="subs_paid" value="{{ request.form['subs_paid'] }}" required>
+      <input type="number" name="subs_paid[]" id="subs_paid" value="" required>
+      <a href="javascript:void(0);" class="add-input" title="Add input">Add Input</a>
     </div>
+    <hr>
     <input type="submit" value="Save">
   </form>
+<script>
+$(document).ready(function(){
+    var max_input_fields = 10;
+    var add_input = $('.add-input');
+    var input_wrapper = $('.input-wrapper');
+    var new_input = '<div><label for="username">Username</label><p>Choose User<select name="username[]" required>{% for user in users_attending %}<option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>{% endfor %}</select></p><label for="subs_paid">Subs Paid</label><input type="number" name="subs_paid[]" id="subs_paid" value="" required><a href="javascript:void(0);" class="remove-input" title="Remove input">Remove an input</a></div>';
+    var add_input_count = 1;
+    $(add_input).click(function(){
+        if(add_input_count < max_input_fields){
+            add_input_count++;
+            $(input_wrapper).append(new_input);
+        }
+    });
+    $(input_wrapper).on('click', '.remove-input', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove();
+        add_input_count--;
+    });
+});
+</script>
 {% endblock %}

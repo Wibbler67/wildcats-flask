@@ -12,6 +12,9 @@
 {% endblock %}
 
 {% block content %}
+{% if not fixtures %}
+  <h1>No subs have currently been registered</h1>
+{% else %}
   {% for fixture in fixtures %}
     <article class="fixture">
       <header>
@@ -21,7 +24,6 @@
       </header>
       <body>
         <p>Amount gathered: {{ fixture['total'] }}</p>
-
       </body>
     </article>
     {% if not loop.last %}
@@ -30,4 +32,5 @@
   {% endfor %}
     <hr>
     <p>Total Gathered to date {{ total['total'] }}</p>
+{% endif %}
 {% endblock %}
