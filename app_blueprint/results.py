@@ -32,7 +32,6 @@ def get_results(limit=None):
         ids = tuple(int(result['fix_id']) for result in results)
         not_query = f"NOT IN {ids}"
         if len(ids) <= 1:
-            print(ids)
             not_query = f"!= {ids[0]}"
     else:
         not_query = "!= 0"
@@ -47,9 +46,6 @@ def get_results(limit=None):
     ).fetchall()
 
     results.sort(key=operator.itemgetter('fixture_date'))
-
-    for result in results:
-        print(result)
 
     return results[-limit:]
 

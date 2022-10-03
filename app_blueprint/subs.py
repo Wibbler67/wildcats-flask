@@ -32,15 +32,10 @@ def add_player_subs(id):
         subs_paid = request.form.getlist("subs_paid[]")
         user_subs = [{"user": username[i], "subs": subs_paid[i]} for i in range(len(username))]
 
-        print(user_subs)
-
         for user in user_subs:
-            print(user['user'])
             user['id'] = db.execute(
                 'SELECT id FROM user where username = ?', (user['user'],)
             ).fetchone()['id']
-
-        print(user_subs)
 
         error = None
 
@@ -81,4 +76,4 @@ def view_subs():
 
     total = get_total_subs()
 
-    return render_template("subs/subs_index.html", fixtures=fixtures, total=total)
+    return render_template("subs/subs_index.html", fixtures=fixtures, total=total, main_title="Subs Overview")

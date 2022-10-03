@@ -15,7 +15,7 @@
 {% block content %}
   <div class="admin_grid">
     <div>
-      <h1>Upcoming Fixtures</h1>
+      <h1>Upcoming Five Fixtures</h1>
       <hr>
       {% for fixture in fixtures %}
       <article>
@@ -33,7 +33,7 @@
       {% endfor %}
     </div>
     <div>
-      <h1>Previous Results</h1>
+      <h1>Previous Five Results</h1>
       <hr>
       {% for result in results %}
       <article>
@@ -51,17 +51,19 @@
       {% endfor %}
     </div>
     <div>
-      <h1>Subs Overview</h1>
+      <h1>Subs Overview </h1>
       <hr>
       {% for subs in all_subs %}
       <article>
         <h1>{{ subs['fixture_date'] }} - {{ subs['match_type'] }} Match</h1>
+        <p>{% if not subs['total'] %}No users have paid subs {% else %}{{ subs['total'] }}{% endif %}</p>
         <a class="action" href="{{ url_for('subs.add_player_subs', id=subs['id']) }}">Register Player Subs</a>
       </article>
       {% endfor %}
+      <hr>
       <article>
         <h1>Total Subs Gathered</h1>
-        <p>Total Subs Gathered: {{ total_subs[0] }}</p>
+        <p>Total Subs Gathered All Season: {{ total_subs[0] }}</p>
       </article>
     </div>
   </div>
