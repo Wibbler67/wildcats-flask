@@ -37,7 +37,7 @@
 <!--    var max_input_fields = 10;-->
 <!--    var add_input = $('.add-input');-->
 <!--    var input_wrapper = $('.input-wrapper');-->
-<!--    var new_input = '<div><label for="username">Username</label><p>Choose Username<select name="username[]" required>{% for user in users %}<option value="{{ user['username'] }}" id="username">{{ user["username"] }}</option>{% endfor %}</select></p><div class="radio_div" id="confirmation[]"><div><p>Can attend</p><input type="radio" value="yes" name="confirmation[]"></div><div><p>Can't attend</p><input type="radio" value="no" name="confirmation[]"></div></div><a href="javascript:void(0);" class="remove-input" title="Remove input">Remove an input</a></div>';-->
+<!--    var new_input = '<div class="input-wrapper"><label for="username">Username</label><p>Choose Username<select name="username[]" required>{% for user in users %}<option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>{% endfor %}</select></p><div class="radio_div" id="confirmation[]"><div><label for="yes_confirmation">Can attend</label><input type="radio" value="yes" name="confirmation[]" id="yes_confirmation"></div><div><label for="no_confirmation">Can't attend</label><input type="radio" value="no" name="confirmation[]" id="no_confirmation"></div></div><a href="javascript:void(0);" class="add-input" title="Add input">Add Input</a></div><a href="javascript:void(0);" class="remove-input" title="Remove input">Remove an input</a></div>';-->
 <!--    var add_input_count = 1;-->
 <!--    $(add_input).click(function(){-->
 <!--        if(add_input_count < max_input_fields){-->
