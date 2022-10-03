@@ -38,14 +38,29 @@
       {% for result in results %}
       <article>
         <h1>{{ result['fixture_date'] }} - {{ result['match_type'] }} Match</h1>
-        <p>{% if result['result'] == "W" %} Win {% else %} Loss {% endif %}</p>
+        <p>{% if result['result'] == "W" %} Wildcat Win {% elif result['result'] == "L" %} Wildcat Loss {% else %} Result not recorded {% endif %}</p>
+        {% if result['result'] != "W" %}
+        <a href="{{ url_for('results.create_result', id=result['fix_id']) }}">Add result</a>
+        {% else %}
+        <a href="{{ url_for('results.update_result', id=result['fix_id']) }}">Add result</a>
+        {% endif %}
       </article>
+      {% if not loop.last %}
+      <hr>
+      {% endif %}
       {% endfor %}
     </div>
     <div>
+      <h1>Subs Overview</h1>
+      <hr>
+      {% for subs in all_subs %}
+      <article>
+        <h1>{{ subs['fixture_date'] }} - {{ subs['match_type'] }} Match</h1>
+        <a class="action" href="{{ url_for('subs.add_player_subs', id=subs['id']) }}">Register Player Subs</a>
+      </article>
+      {% endfor %}
       <article>
         <h1>Total Subs Gathered</h1>
-        <hr>
         <p>Total Subs Gathered: {{ total_subs[0] }}</p>
       </article>
     </div>

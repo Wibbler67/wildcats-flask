@@ -5,6 +5,7 @@ from flask import (
 from .auth import login_required
 from .db import get_db
 from .fixtures import get_fixture
+import operator
 
 bp = Blueprint('results', __name__, url_prefix="/results")
 
@@ -17,15 +18,40 @@ def get_results(limit=None):
         limit_query = f"LIMIT {limit}"
 
     db = get_db()
-    query = db.execute(
-        "SELECT r.id, result, fixture_date "
+    results = db.execute(
+        "SELECT r.id, result, fixture_date, f.id as fix_id "
         " FROM results r"
         " JOIN fixtures f on r.fixture_id = f.id"
+        " WHERE DATE() > fixture_date"
+        ' ORDER BY fixture_date DESC'
         f" {limit_query}",
         ()
     ).fetchall()
 
-    return query
+    if results:
+        ids = tuple(int(result['fix_id']) for result in results)
+        not_query = f"NOT IN {ids}"
+        if len(ids) <= 1:
+            print(ids)
+            not_query = f"!= {ids[0]}"
+    else:
+        not_query = "!= 0"
+
+    results += db.execute(
+        'SELECT f.id as fix_id, author_id, fixture_date, match_type, team, location'
+        ' FROM fixtures f'
+        f' WHERE fix_id {not_query} and DATE() > fixture_date '
+        ' ORDER BY fixture_date DESC'
+        f' {limit_query}',
+        ()
+    ).fetchall()
+
+    results.sort(key=operator.itemgetter('fixture_date'))
+
+    for result in results:
+        print(result)
+
+    return results[-limit:]
 
 
 def get_result(id):
