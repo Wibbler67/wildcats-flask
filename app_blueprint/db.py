@@ -38,11 +38,11 @@ def seed_db():
     lst = []
 
     try:
-        with open(f"{os.path.abspath(os.getcwd())}/Flaskr/Fixture/fixture_list.csv") as csv:
+        with open(f"{os.path.dirname(os.path.realpath(__file__))}/../Fixture/fixture_list.csv") as csv:
             for line in csv:
                 lst.append(line.strip("\n").split(","))
     except FileNotFoundError:
-        with open(f"{os.path.abspath(os.getcwd())}/Flaskr/Fixture/fixture_list_seed.csv") as csv:
+        with open(f"{os.path.dirname(os.path.realpath(__file__))}/../Fixture/fixture_list_seed.csv") as csv:
             for line in csv:
                 lst.append(line.strip("\n").split(","))
 
