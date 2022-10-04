@@ -21,7 +21,7 @@
   </form>
   <hr>
 {% if g.user['is_admin'] %}
-  <form action="{{ url_for('attendance.delete_attendance', fixture_id=fixture['id'], user_id=g.user['id'],) }}" method="post">
+  <form action="{{ url_for('availability.delete_availability', fixture_id=fixture['id'], user_id=g.user['id'],) }}" method="post">
     <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
   </form>
 {% endif %}

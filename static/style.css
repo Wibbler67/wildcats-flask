@@ -237,3 +237,52 @@ input[type=submit] {
   margin 0px;
   gap: 1rem;
 }
+
+.user_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  margin: 0px;
+  gap: 1rem;
+  justify:center;
+}
+
+.user_grid p {
+  display: grid;
+  gap: 1rem;
+  text-align: center;
+  margin-left: 10px;
+}
+
+.user_grid a {
+  display: grid;
+  margin: 0px;
+  gap: 1rem;
+  text-align: center;
+  align-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .user_grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 0px;
+    gap: 1rem;
+    justify: center;
+    text-align: center;
+  }
+
+  .user_grid p {
+    display: grid;
+    gap: 1rem;
+    text-align: center;
+    margin-left: 10px;
+  }
+
+  .user_grid a {
+    display: grid;
+    margin: 0px;
+    gap: 1rem;
+    text-align: center;
+    align-content: center;
+  }
+}

@@ -11,16 +11,16 @@ from .fixtures import get_fixture
 bp = Blueprint('availability', __name__, url_prefix="/availability")
 
 
-def get_available():
+def get_available(fixture_id):
 
     attendees = get_db().execute(
         'SELECT count(*) as total'
         ' FROM availabilities a'
         ' JOIN user u ON u.id = a.attendee_id '
         ' JOIN fixtures f ON f.id = a.fixture_id '
-        ' WHERE a.availability = 1 '
+        ' WHERE a.availability = 1 and f.id = ?'
         ' GROUP BY f.id',
-        ()
+        (fixture_id,)
     ).fetchall()
 
     return attendees
@@ -29,13 +29,16 @@ def get_available():
 def get_availability(fixture_id):
 
     attendees = get_db().execute(
-        'SELECT username'
+        'SELECT username, availability'
         ' FROM availabilities a'
         ' JOIN user u ON u.id = a.attendee_id '
         ' JOIN fixtures f ON f.id = a.fixture_id '
-        ' WHERE f.id = ? and a.availability = 1 ',
+        ' WHERE f.id = ? ',
         (fixture_id,)
     ).fetchall()
+
+    for attendee in attendees:
+        print(attendee['username'])
 
     return attendees
 

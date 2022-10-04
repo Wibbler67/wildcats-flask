@@ -75,10 +75,10 @@ def get_fixtures_and_attendance(limit=None):
         limit_query = f"LIMIT {limit}"
 
     fixtures = db.execute(
-        'SELECT f.id, author_id, fixture_date, match_type, team, location, sum(availability) as total'
+        'SELECT f.id, author_id, fixture_date, match_type, team, location, count(availability) as total'
         ' FROM fixtures f '
         ' JOIN availabilities a ON a.fixture_id = f.id '
-        ' WHERE DATE() < fixture_date and availability = 1'
+        ' WHERE DATE() < fixture_date'
         ' GROUP BY f.id'
         f' {limit_query}',
         ()
@@ -134,7 +134,10 @@ def register_user_attendance(id):
         " FROM user"
     ).fetchall()
 
-    attending = get_availability(id)
+    user_availability = get_availability(id)
+
+    for attendee in user_availability:
+        print(attendee['username'])
 
     if request.method == "POST":
         availability = request.form.getlist('availability[]')
@@ -179,7 +182,7 @@ def register_user_attendance(id):
 
             return redirect(url_for("admin.admin_home"))
 
-    return render_template("admin/admin_attendance.html", all_users=all_users, fixture=fixture, attending=attending)
+    return render_template("admin/admin_attendance.html", all_users=all_users, fixture=fixture, user_availability=user_availability)
 
 
 @bp.route("/subs/<int:id>/register", methods=["GET", "POST"])

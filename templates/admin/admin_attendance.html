@@ -8,15 +8,33 @@
 {% block content %}
 <h1>Adding users for Match on {{ fixture['fixture_date'] }}</h1>
 <hr>
-{% if attending %}
-  <h1>Attending Already</h1>
-  {% for user in attending %}
-  <div class="user_grid">
-    <p>{{ user['username'] }}</p>
-    <a href="{{ url_for('admin.remove_player_availability', fix_id=fixture['id'], username=user['username']) }}">Remove Availability</a>
+
+{% if user_availability %}
+<div class="user_grid">
+  <div>
+    <h1>Availabile</h1>
+    {% for user in user_availability %}
+    {% if user['availability'] == 1 %}
+    <div class="user_grid">
+      <p>{{ user['username'] }} - Available</p>
+      <a href="{{ url_for('admin.remove_player_availability', fix_id=fixture['id'], username=user['username']) }}">Remove Availability</a>
+    </div>
+    {% endif %}
+    {% endfor %}
   </div>
-  {% endfor %}
-  <hr>
+  <div >
+    <h1>Not available</h1>
+    {% for user in user_availability %}
+    {% if user['availability'] == 0 %}
+    <div class="user_grid">
+      <p>{{ user['username'] }} - Not Available</p>
+      <a href="{{ url_for('admin.remove_player_availability', fix_id=fixture['id'], username=user['username']) }}">Remove Availability</a>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+<hr>
 {% endif %}
 <h1>New Attendees</h1>
 <hr>
