@@ -4,7 +4,6 @@ from flask import (
 
 from .auth import login_required, admin_login_required
 from .db import get_db
-from .attendance import get_attending
 
 bp = Blueprint('subs', __name__, url_prefix="/subs")
 
@@ -20,6 +19,7 @@ def get_total_subs():
 
 
 @bp.route("/view_subs", methods=["GET"])
+@login_required
 @admin_login_required
 def view_subs():
     db = get_db()

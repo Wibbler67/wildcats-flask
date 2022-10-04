@@ -8,17 +8,17 @@ from .auth import login_required
 from .db import get_db
 from .fixtures import get_fixture
 
-bp = Blueprint('attendance', __name__, url_prefix="/attendance")
+bp = Blueprint('availability', __name__, url_prefix="/availability")
 
 
-def get_attendance():
+def get_available():
 
     attendees = get_db().execute(
         'SELECT count(*) as total'
-        ' FROM attendance a'
+        ' FROM availabilities a'
         ' JOIN user u ON u.id = a.attendee_id '
         ' JOIN fixtures f ON f.id = a.fixture_id '
-        ' WHERE a.attending = 1 '
+        ' WHERE a.availability = 1 '
         ' GROUP BY f.id',
         ()
     ).fetchall()
@@ -26,14 +26,14 @@ def get_attendance():
     return attendees
 
 
-def get_attending(fixture_id):
+def get_availability(fixture_id):
 
     attendees = get_db().execute(
         'SELECT username'
-        ' FROM attendance a'
+        ' FROM availabilities a'
         ' JOIN user u ON u.id = a.attendee_id '
         ' JOIN fixtures f ON f.id = a.fixture_id '
-        ' WHERE f.id = ? and a.attending = 1 ',
+        ' WHERE f.id = ? and a.availability = 1 ',
         (fixture_id,)
     ).fetchall()
 
@@ -43,8 +43,8 @@ def get_attending(fixture_id):
 def check_if_already_registered(user_id, fixture_id):
     db = get_db()
     already_registered = db.execute(
-        'SELECT username, fixture_date, attending '
-        ' FROM attendance a'
+        'SELECT username, fixture_date, availability '
+        ' FROM availabilities a'
         ' JOIN user u ON u.id = a.attendee_id '
         ' JOIN fixtures f ON f.id = a.fixture_id'
         ' WHERE u.id = ? and f.id = ? ',
@@ -56,16 +56,16 @@ def check_if_already_registered(user_id, fixture_id):
 
 @bp.route("/<int:id>/total_attendance", methods=["GET"])
 @login_required
-def get_fixture_attendance(id):
+def get_fixture_availability(id):
     fixture = get_fixture(id)
 
-    attendees = get_attending(id)
+    attendees = get_availability(id)
 
     count = get_db().execute(
         'SELECT count(*) as total '
-        ' FROM attendance a'
+        ' FROM availabilities a'
         ' JOIN fixtures f ON f.id = a.fixture_id '
-        ' WHERE f.id = ? and a.attending = 1 ',
+        ' WHERE f.id = ? and a.availability = 1 ',
         (id,)
     ).fetchall()
 
@@ -75,9 +75,9 @@ def get_fixture_attendance(id):
     return render_template("/attendance/attending.html", fixture=fixture, attendees=attendees, count=count)
 
 
-@bp.route("/<int:id>/add_attendance", methods=["GET", "POST"])
+@bp.route("/<int:id>/add_availability", methods=["GET", "POST"])
 @login_required
-def create_confirm_attendance(id):
+def create_availability(id):
     fixture = get_fixture(id, False)
 
     if request.method == "POST":
@@ -86,12 +86,12 @@ def create_confirm_attendance(id):
         error = None
 
         if attendance is None:
-            error = "Attendance confirmation is required"
+            error = "Availability confirmation is required"
 
         if attendance == "yes":
-            attendance = 1
+            availability = 1
         else:
-            attendance = 0
+            availability = 0
 
         already_registered = check_if_already_registered(g.user['id'], fixture['id'])
 
@@ -103,9 +103,9 @@ def create_confirm_attendance(id):
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO attendance (attendee_id, fixture_id, attending)'
+                'INSERT INTO availabilities (attendee_id, fixture_id, availability)'
                 ' VALUES (?, ?, ?)',
-                (g.user['id'], fixture['id'], attendance)
+                (g.user['id'], fixture['id'], availability)
 
             )
             db.commit()
@@ -114,9 +114,9 @@ def create_confirm_attendance(id):
     return render_template("attendance/edit.html", fixture=fixture)
 
 
-@bp.route("/<int:id>/edit_attendance", methods=["POST", "GET"])
+@bp.route("/<int:id>/edit_availability", methods=["POST", "GET"])
 @login_required
-def update_attendance(id):
+def update_availability(id):
     fixture = get_fixture(id, False)
 
     if request.method == "POST":
@@ -128,18 +128,18 @@ def update_attendance(id):
             error = "Attendance confirmation is required"
 
         if attendance == "yes":
-            attendance = 1
+            availability = 1
         else:
-            attendance = 0
+            availability = 0
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'UPDATE attendance SET attending = ?'
+                'UPDATE availabilities SET availability = ?'
                 ' WHERE id = ? and fixture_id = ?',
-                (attendance, g.user['id'], fixture['id'])
+                (availability, g.user['id'], fixture['id'])
             )
             db.commit()
         return redirect(url_for("account.account", id=g.user['id']))
@@ -148,10 +148,11 @@ def update_attendance(id):
 
 
 @bp.route('/<int:fixture_id>/<int:user_id>/delete', methods=['POST'])
-def delete_attendance(user_id, fixture_id):
+def delete_availability(user_id, fixture_id):
     db = get_db()
+
     db.execute(
-        'DELETE FROM attendance WHERE attendee_id = ? and fixture_id = ?',
+        'DELETE FROM availabilities WHERE attendee_id = ? and fixture_id = ?',
         (user_id, fixture_id)
         )
     db.commit()

@@ -29,8 +29,8 @@ def create_app(test_config=None):
     from .app_blueprint import fixtures
     app.register_blueprint(fixtures.bp)
 
-    from .app_blueprint import attendance
-    app.register_blueprint(attendance.bp)
+    from .app_blueprint import availability
+    app.register_blueprint(availability.bp)
 
     from .app_blueprint import account
     app.register_blueprint(account.bp)

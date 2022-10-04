@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS post;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  email TEXT UNIQUE,
+  email TEXT,
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   is_admin INTEGER
@@ -24,11 +24,11 @@ CREATE TABLE fixtures (
   FOREIGN KEY (author_id) REFERENCES user (id)
 );
 
-CREATE TABLE attendance (
+CREATE TABLE availabilities (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   attendee_id INTEGER NOT NULL,
   fixture_id INTEGER NOT NULL,
-  attending INTEGER NOT NULL,
+  availability INTEGER NOT NULL,
   FOREIGN KEY (attendee_id) REFERENCES user (id),
   FOREIGN KEY (fixture_id) REFERENCES fixtures (id)
 );

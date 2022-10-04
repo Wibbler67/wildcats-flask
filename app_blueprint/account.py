@@ -18,8 +18,8 @@ def account(id):
         abort(403)
 
     fixture_attendance = get_db().execute(
-        "SELECT username, fixture_date, fixture_id, attending, match_type"
-        ' FROM attendance a'
+        "SELECT username, fixture_date, fixture_id, availability, match_type"
+        ' FROM availabilities a'
         ' JOIN user u ON u.id = a.attendee_id '
         ' JOIN fixtures f ON f.id = a.fixture_id '
         " WHERE u.id = ? and fixture_date > DATE()"
@@ -39,8 +39,8 @@ def account_attendance(id):
         abort(403)
 
     fixture_attendance = get_db().execute(
-        "SELECT username, fixture_date, fixture_id, attending, match_type"
-        ' FROM attendance a'
+        "SELECT username, fixture_date, fixture_id, availability, match_type"
+        ' FROM availabilities a'
         ' JOIN user u ON u.id = a.attendee_id '
         ' JOIN fixtures f ON f.id = a.fixture_id '
         " WHERE u.id = ?"
@@ -125,7 +125,9 @@ def change_password(id):
             except db.IntegrityError:
                 error = "An error has occured"
             else:
-                return redirect(url_for("account.home", id=g.user['id']))
+                flash("Password changed successfully")
+                return redirect(url_for("account.account", id=g.user['id']))
+
         flash(error)
 
-    return render_template("account/edit-password.html", id=id)
+    return render_template("account/edit_password.html", id=id)

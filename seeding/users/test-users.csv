@@ -1,0 +1,12 @@
+email,name,password,isadmin
+NULL,admin,password,1
+NULL,user 1,password,1
+NULL,user 2,password,1
+NULL,user 3,password,0
+NULL,user 4,password,0
+NULL,user 5,password,0
+NULL,user 6,password,0
+NULL,user 7,password,0
+NULL,user 8,password,0
+NULL,user 9,password,0
+NULL,user 10,password,0

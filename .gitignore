@@ -1,5 +1,5 @@
-Fixture/fixture_list.csv
-Fixture/fixture_list_test.csv
+seeding/fixtures/fixture_list.csv
+seeding/users/users-seeding.csv
 venv
 __pycache__
 .idea

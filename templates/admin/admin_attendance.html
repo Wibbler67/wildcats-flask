@@ -7,49 +7,57 @@
 
 {% block content %}
 <h1>Adding users for Match on {{ fixture['fixture_date'] }}</h1>
+<hr>
+{% if attending %}
+  <h1>Attending Already</h1>
+  {% for user in attending %}
+  <div class="user_grid">
+    <p>{{ user['username'] }}</p>
+    <a href="{{ url_for('admin.remove_player_availability', fix_id=fixture['id'], username=user['username']) }}">Remove Availability</a>
+  </div>
+  {% endfor %}
+  <hr>
+{% endif %}
+<h1>New Attendees</h1>
+<hr>
   <form method="post">
     <div class="input-wrapper">
-      <label for="username">Username</label>
-      <p>Choose Username
-        <select name="username[]" required>
-          {% for user in users %}
-            <option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>
-          {% endfor %}
-        </select>
-      </p>
-      <div class="radio_div" id="confirmation[]">
-        <div>
-          <label for="yes_confirmation">Can attend</label>
-          <input type="radio" value="yes" name="confirmation[]" id="yes_confirmation">
-        </div>
-        <div>
-          <label for="no_confirmation">Can't attend</label>
-          <input type="radio" value="no" name="confirmation[]" id="no_confirmation">
-        </div>
+      <div>
+        <label for="username">User: </label>
+          <select name="username[]" required>
+            {% for user in all_users %}
+              <option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>
+            {% endfor %}
+          </select>
       </div>
+        <label for="availability">Availability: </label>
+          <select name="availability[]" required>
+            <option value="1" id="available">Available</option>
+            <option value="0" id="not_available">Not Available</option>
+          </select>
       <a href="javascript:void(0);" class="add-input" title="Add input">Add Input</a>
     </div>
     <hr>
     <input type="submit" value="Save">
   </form>
-<!--<script>-->
-<!--$(document).ready(function(){-->
-<!--    var max_input_fields = 10;-->
-<!--    var add_input = $('.add-input');-->
-<!--    var input_wrapper = $('.input-wrapper');-->
-<!--    var new_input = '<div class="input-wrapper"><label for="username">Username</label><p>Choose Username<select name="username[]" required>{% for user in users %}<option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>{% endfor %}</select></p><div class="radio_div" id="confirmation[]"><div><label for="yes_confirmation">Can attend</label><input type="radio" value="yes" name="confirmation[]" id="yes_confirmation"></div><div><label for="no_confirmation">Can't attend</label><input type="radio" value="no" name="confirmation[]" id="no_confirmation"></div></div><a href="javascript:void(0);" class="add-input" title="Add input">Add Input</a></div><a href="javascript:void(0);" class="remove-input" title="Remove input">Remove an input</a></div>';-->
-<!--    var add_input_count = 1;-->
-<!--    $(add_input).click(function(){-->
-<!--        if(add_input_count < max_input_fields){-->
-<!--            add_input_count++;-->
-<!--            $(input_wrapper).append(new_input);-->
-<!--        }-->
-<!--    });-->
-<!--    $(input_wrapper).on('click', '.remove-input', function(e){-->
-<!--        e.preventDefault();-->
-<!--        $(this).parent('div').remove();-->
-<!--        add_input_count&#45;&#45;;-->
-<!--    });-->
-<!--});-->
-<!--</script>-->
+<script>
+$(document).ready(function(){
+    var max_input_fields = 10;
+    var add_input = $('.add-input');
+    var input_wrapper = $('.input-wrapper');
+    var new_input = '<div><hr><label for="username">User: </label><select name="username[]" required>{% for user in all_users %}<option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>{% endfor %}</select></p><label for="availability">Attendance: </label><select name="availability[]" required><option value="1" id="availabile">Available</option><option value="0" id="not_available">Not Available</option></select><a href="javascript:void(0);" class="remove-input" title="Remove input">Remove an input</a></div>';
+    var add_input_count = 1;
+    $(add_input).click(function(){
+        if(add_input_count < max_input_fields){
+            add_input_count++;
+            $(input_wrapper).append(new_input);
+        }
+    });
+    $(input_wrapper).on('click', '.remove-input', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove();
+        add_input_count--;
+    });
+});
+</script>
 {% endblock %}

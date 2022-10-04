@@ -39,10 +39,13 @@
           {% endif %}
         {% endif %}
         {% if g.user['id'] and fixture['fixture_date'] > current_date or g.user['is_admin'] == 1 %}
-          <a class="action" href="{{ url_for('attendance.create_confirm_attendance', id=fixture['id']) }}">Confirm Attendance</a>
+          <a class="action" href="{{ url_for('availability.create_availability', id=fixture['id']) }}">Confirm Attendance</a>
+        {% endif %}
+        {% if g.user['is_admin'] == 1 %}
+          <a class="action" href="{{ url_for('admin.register_user_attendance', id=fixture['id']) }}">Admin Add Attendance</a>
         {% endif %}
         {% if g.user['id'] == fixture['author_id'] or g.user['is_admin'] == 1 %}
-          <a class="action" href="{{ url_for('attendance.get_fixture_attendance', id=fixture['id']) }}">View Attendees</a>
+          <a class="action" href="{{ url_for('availability.get_fixture_availability', id=fixture['id']) }}">View Attendees</a>
         {% endif %}
         {% if g.user['is_admin'] == 1 %}
           <a class="action" href="{{ url_for('admin.add_player_subs', id=fixture['id']) }}">Register Player Subs</a>

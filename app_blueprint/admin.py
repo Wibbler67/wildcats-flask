@@ -6,7 +6,7 @@ from flask import (
 from .auth import admin_login_required, login_required
 from .subs import get_total_subs
 from .results import get_results
-from .attendance import check_if_already_registered, get_attending
+from .availability import check_if_already_registered, get_availability, delete_availability
 from .fixtures import get_fixture
 from .db import get_db
 
@@ -75,10 +75,10 @@ def get_fixtures_and_attendance(limit=None):
         limit_query = f"LIMIT {limit}"
 
     fixtures = db.execute(
-        'SELECT f.id, author_id, fixture_date, match_type, team, location, sum(attending) as total'
+        'SELECT f.id, author_id, fixture_date, match_type, team, location, sum(availability) as total'
         ' FROM fixtures f '
-        ' JOIN attendance a ON a.fixture_id = f.id '
-        ' WHERE DATE() < fixture_date and attending = 1'
+        ' JOIN availabilities a ON a.fixture_id = f.id '
+        ' WHERE DATE() < fixture_date and availability = 1'
         ' GROUP BY f.id'
         f' {limit_query}',
         ()
@@ -129,35 +129,41 @@ def register_user_attendance(id):
     fixture = get_fixture(id)
     db = get_db()
 
-    users = db.execute(
+    all_users = db.execute(
         "Select username "
         " FROM user"
-    )
+    ).fetchall()
+
+    attending = get_availability(id)
 
     if request.method == "POST":
-        attendances = request.form.getlist('confirmation')
-        usernames = request.form.getlist('username')
+        availability = request.form.getlist('availability[]')
+        usernames = request.form.getlist('username[]')
+
+        print(availability)
 
         error = None
 
-        if attendances is None:
+        if availability is None:
             error = "Attendance confirmation is required"
 
-        attendees = [{"user": usernames[i], "attendance": attendances[i]} for i in range(len(attendances))]
+        attendees = [{"user": usernames[i], "availability": availability[i]} for i in range(len(availability))]
 
         for user in attendees:
 
-            if user['attendance'] == "yes":
-                user['attendance'] = 1
+            if user['availability'] == "1":
+                user['availability'] = 1
             else:
-                user['attendance'] = 0
+                user['availability'] = 0
 
             user['id'] = get_user_id(user['user'])
+
+            print(user)
 
             already_registered = check_if_already_registered(get_user_id(user['user']), fixture['id'])
 
             if already_registered is not None:
-                error = "Attendance already confirmed"
+                error = f"Availability for user {user['user']} already confirmed"
 
         if error is not None:
             flash(error)
@@ -165,15 +171,15 @@ def register_user_attendance(id):
             for user in attendees:
                 db = get_db()
                 db.execute(
-                    'INSERT INTO attendance (attendee_id, fixture_id, attending)'
+                    'INSERT INTO availabilities (attendee_id, fixture_id, availability)'
                     ' VALUES (?, ?, ?)',
-                    (user['id'], fixture['id'], user['attendance'])
+                    (user['id'], fixture['id'], user['availability'])
                 )
                 db.commit()
 
-        return redirect(url_for("admin.admin_home"))
+            return redirect(url_for("admin.admin_home"))
 
-    return render_template("admin/admin_attendance.html", users=users, fixture=fixture)
+    return render_template("admin/admin_attendance.html", all_users=all_users, fixture=fixture, attending=attending)
 
 
 @bp.route("/subs/<int:id>/register", methods=["GET", "POST"])
@@ -182,7 +188,9 @@ def register_user_attendance(id):
 def add_player_subs(id):
     db = get_db()
 
-    users_attending = get_attending(id)
+    fixture = get_fixture(id)
+
+    users_attending = get_availability(id)
 
     if request.method == "POST":
         username = request.form.getlist("username[]")
@@ -213,6 +221,20 @@ def add_player_subs(id):
                     (user['id'], id, user['subs'])
                 )
                 db.commit()
-        return redirect(url_for("account.account", id=g.user['id']))
+        return redirect(url_for("admin.home", id=g.user['id']))
 
-    return render_template("admin/admin-register-subs.html", users_attending=users_attending)
+    return render_template("admin/admin-register-subs.html", users_attending=users_attending, fixture=fixture)
+
+
+@bp.route("/userAttendance/delete")
+@login_required
+@admin_login_required
+def remove_player_availability():
+    username = request.args.get('username', None)
+    fix_id = request.args.get('fix_id', None)
+
+    user_id = get_user_id(username)
+
+    delete_availability(user_id, fix_id)
+
+    return redirect(url_for("admin.register_user_attendance", id=fix_id))

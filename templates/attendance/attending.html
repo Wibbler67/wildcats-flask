@@ -14,7 +14,7 @@
       <body>
       {% for attendee in attendees %}
         <p class="fixtures">{{ attendee['username'] }}</p>
-        <a class="action" href="{{ url_for('subs.add_player_subs', id=fixture['id']) }}" >Add Subs</a>
+        <a class="action" href="{{ url_for('admin.add_player_subs', id=fixture['id']) }}" >Add Subs</a>
       {% endfor %}
       <p><br>A total of {{ count['total'] }} people have confirmed attendance</p>
       </body>

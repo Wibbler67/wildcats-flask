@@ -27,8 +27,21 @@ def close_db(e=None):
 def seed_db():
     db = get_db()
 
-    admin_account = ["admin@example.com", "admin", generate_password_hash("password"), 1]
-    db.execute("INSERT INTO user (email, username, password, is_admin) VALUES (?, ?, ?, ?)", admin_account)
+    lst = []
+
+    try:
+        with open(f"{os.path.dirname(os.path.realpath(__file__))}/../seeding/users/users-seeding.csv") as csv:
+            for line in csv:
+                lst.append(line.strip("\n").split(","))
+    except FileNotFoundError:
+        with open(f"{os.path.dirname(os.path.realpath(__file__))}/../seeding/users/test-users.csv") as csv:
+            for line in csv:
+                lst.append(line.strip("\n").split(","))
+
+    for user in lst:
+        user[2] = generate_password_hash(user[2])
+
+    db.executemany("INSERT INTO user (email, username, password, is_admin) VALUES (?, ?, ?, ?)", lst[1:])
     db.commit()
 
     admin_id = db.execute(
@@ -38,11 +51,11 @@ def seed_db():
     lst = []
 
     try:
-        with open(f"{os.path.dirname(os.path.realpath(__file__))}/../Fixture/fixture_list.csv") as csv:
+        with open(f"{os.path.dirname(os.path.realpath(__file__))}/../seeding/fixtures/fixture_list.csv") as csv:
             for line in csv:
                 lst.append(line.strip("\n").split(","))
     except FileNotFoundError:
-        with open(f"{os.path.dirname(os.path.realpath(__file__))}/../Fixture/fixture_list_seed.csv") as csv:
+        with open(f"{os.path.dirname(os.path.realpath(__file__))}/../seeding/fixtures/fixture_list_seed.csv") as csv:
             for line in csv:
                 lst.append(line.strip("\n").split(","))
 

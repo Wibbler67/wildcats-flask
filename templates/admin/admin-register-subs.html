@@ -6,17 +6,17 @@
 {% endblock %}
 
 {% block content %}
+  <a href="{{ url_for('admin.register_user_attendance', id=fixture['id']) }}">Add user attendance</a>
   <form method="post">
     <div class="input-wrapper">
-      <label for="username">Username</label>
-      <p>Choose User
+      <label for="username">User: </label>
         <select name="username[]" required>
           {% for user in users_attending %}
             <option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>
           {% endfor %}
             <option value="none-specified" id="none">None-specified</option>
         </select>
-      </p>
+      <br><br>
       <label for="subs_paid">Subs Paid</label>
       <input type="number" name="subs_paid[]" id="subs_paid" value="" required>
       <a href="javascript:void(0);" class="add-input" title="Add input">Add Input</a>
@@ -29,7 +29,7 @@ $(document).ready(function(){
     var max_input_fields = 10;
     var add_input = $('.add-input');
     var input_wrapper = $('.input-wrapper');
-    var new_input = '<div><label for="username">Username</label><p>Choose User<select name="username[]" required>{% for user in users_attending %}<option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>{% endfor %}</select></p><label for="subs_paid">Subs Paid</label><input type="number" name="subs_paid[]" id="subs_paid" value="" required><a href="javascript:void(0);" class="remove-input" title="Remove input">Remove an input</a></div>';
+    var new_input = '<div><hr><label for="username">User: </label><select name="username[]" required>{% for user in users_attending %}<option value="{{ user['username'] }}" id="username">{{ user['username'] }}</option>{% endfor %}<option value="none-specified" id="none">No-one currently attending</option></select><br><br><label for="subs_paid">Subs Paid: </label><input type="number" name="subs_paid[]" id="subs_paid" value="" required><a href="javascript:void(0);" class="remove-input" title="Remove input">Remove an input</a></div>';
     var add_input_count = 1;
     $(add_input).click(function(){
         if(add_input_count < max_input_fields){
