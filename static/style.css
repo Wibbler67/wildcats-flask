@@ -240,16 +240,14 @@ input[type=submit] {
 
 .user_grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   margin: 0px;
   gap: 1rem;
-  justify:center;
 }
 
 .user_grid p {
   display: grid;
   gap: 1rem;
-  text-align: center;
   margin-left: 10px;
 }
 
@@ -261,27 +259,55 @@ input[type=submit] {
   align-content: center;
 }
 
+.inner_user_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0px;
+  gap: 1rem;
+}
+
+.user_grid p {
+  display: grid;
+  gap: 1rem;
+  margin-left: 10px;
+}
+
+.user_grid a {
+  display: grid;
+  margin: 0px;
+  gap: 1rem;
+  text-align: center;
+  align-content: center;
+}
+
+
 @media only screen and (max-width: 600px) {
   .user_grid {
     display: grid;
     grid-template-columns: 1fr;
-    margin: 0px;
-    gap: 1rem;
-    justify: center;
+    gap: 0rem;
     text-align: center;
+  }
+
+
+  .inner_user_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0px;
+  gap: 0rem;
   }
 
   .user_grid p {
     display: grid;
-    gap: 1rem;
+    gap: 0rem;
     text-align: center;
-    margin-left: 10px;
+    margin: 0px 0px 0px 10px;
   }
 
   .user_grid a {
     display: grid;
-    margin: 0px;
-    gap: 1rem;
+    margin-bottom: 15px;
+    gap: 0rem;
     text-align: center;
     align-content: center;
   }
