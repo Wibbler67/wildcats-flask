@@ -37,9 +37,6 @@ def get_availability(fixture_id):
         (fixture_id,)
     ).fetchall()
 
-    for attendee in attendees:
-        print(attendee['username'])
-
     return attendees
 
 

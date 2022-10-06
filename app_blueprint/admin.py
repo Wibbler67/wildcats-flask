@@ -136,14 +136,9 @@ def register_user_attendance(id):
 
     user_availability = get_availability(id)
 
-    for attendee in user_availability:
-        print(attendee['username'])
-
     if request.method == "POST":
         availability = request.form.getlist('availability[]')
         usernames = request.form.getlist('username[]')
-
-        print(availability)
 
         error = None
 
@@ -160,8 +155,6 @@ def register_user_attendance(id):
                 user['availability'] = 0
 
             user['id'] = get_user_id(user['user'])
-
-            print(user)
 
             already_registered = check_if_already_registered(get_user_id(user['user']), fixture['id'])
 
