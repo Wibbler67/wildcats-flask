@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 def create_app(test_config=None):
@@ -53,6 +54,9 @@ def create_app(test_config=None):
 
     app.jinja_env.globals.update(get_result=results.get_result)
 
+    app.wsgi_app = ProxyFix(
+        app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+    )
     return app
 
 
