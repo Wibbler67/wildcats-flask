@@ -3,3 +3,4 @@ seeding/users/users-seeding.csv
 venv
 __pycache__
 .idea
+instance
