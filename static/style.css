@@ -2,12 +2,16 @@ html {
   font-family: sans-serif;
   background: #eee;
   padding: 1rem;
+  background-image: url("images/malik-skydsgaard-ylGcmefqE_I-unsplash.jpg");
+  background-repeat: repeat;
+  background-size: cover;
 }
 
 body {
-  max-width: 960px;
+  max-width: 75%;
   margin: 0 auto;
   background: white;
+  opacity: 0.9;
 }
 
 h1 {
