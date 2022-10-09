@@ -7,16 +7,11 @@
 {% block content %}
 <h1>Match on {{ fixture['fixture_date'] }}</h1>
   <form method="post">
-      <div class="radio_div">
-        <div>
-          <label for="yes_confirmation">Can attend</label>
-          <input type="radio" value="yes" name="confirmation" id="yes_confirmation">
-        </div>
-        <div>
-          <label for="no_confirmation">Can't attend</label>
-          <input type="radio" value="no" name="confirmation" id="no_confirmation">
-        </div>
-      </div>
+    <label for="confirmation">Availability: </label>
+      <select name="confirmation" required>
+        <option value="yes" id="confirmation">Available</option>
+        <option value="no" id="confirmation">Not Available</option>
+      </select>
     <input type="submit" value="Save">
   </form>
   <hr>

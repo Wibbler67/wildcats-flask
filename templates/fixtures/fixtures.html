@@ -25,8 +25,12 @@
       </header>
       <body>
         <p class="fixtures">Against {{ fixture['team'] }} at {{ fixture['location'] }}</p>
-        {% if fixture['result'] %}
-          <p class="fixtures">Result {{ fixture['result'] }}</p>
+        {% if fixture['fixture_date'] < current_date %}
+          {% if fixture['result'] %}
+            <p class="fixtures">Result: Wildcat {% if fixture['result'] == "W" %} Win {% else %} Loss {% endif %}</p>
+          {% else %}
+            <p>Result: Not yet recorded</p>
+          {% endif %}
         {% endif %}
         {% if g.user['id'] == fixture['author_id'] %}
           <a class="action" href="{{ url_for('fixtures.update_fixture', id=fixture['id']) }}">Edit Fixture</a>
