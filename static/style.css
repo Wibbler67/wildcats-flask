@@ -1,28 +1,494 @@
-html {
+
+/* phones */
+@media only screen and (min-width: 600px) and (max-width: 1500px){
+  html {
   font-family: sans-serif;
-  background: #eee;
   padding: 1rem;
-  background-image: url("images/malik-skydsgaard-ylGcmefqE_I-unsplash.jpg");
-  background-repeat: repeat;
+  background: url("images/keith-misner-h0Vxgz5tyXA-unsplash.jpg");
   background-size: cover;
-}
+  background-position: fixed;
+  font-size: xx-large;
+  }
 
-body {
-  max-width: 75%;
+  body {
+  max-width: 100%;
   margin: 0 auto;
-  background: white;
-  opacity: 0.9;
-}
+  opacity: 1;
+  }
 
-h1 {
+  .white-background {
+  background: white;
+  }
+
+  h1 {
   font-family: serif;
   color: #377ba8;
   margin: 1rem 0;
+  }
+
+  .topnav {
+  overflow: hidden;
+  position: relative;
+  margin: 0px;
+  font-size: 2rem;
+  text-align: center;
+  }
+
+  .topnav .container {
+  overflow: hidden;
+  margin: auto;
+  font-size: 3rem;
+  text-align: center;
+  width: 50%;
+  display: block;
+  }
+
+  /* Style navigation menu links */
+  .topnav a {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 3rem;
+    display: block;
+    text-align: center;
+  }
+
+  .topnav .links {
+    color: white;
+    padding: 14px 16px;
+    width: 50%;
+    margin-right:0px;
+    text-decoration: none;
+    font-size: 2rem;
+    display: block;
+    text-align: center;
+    float_right: 0px;
+  }
+
+  /* Add a grey background color on mouse-over */
+  .topnav a:hover {
+    color: black;
+  }
+
+  .topnav span {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 1rem;
+    display: block;
+    align: right;
+  }
+
+  /* Style the active link (or home/logo) */
+  .active {
+  }
+
+  .bottomnav {
+  position: fixed;
+  bottom:0px;
+  margin-top: 30px;
+  margin-bottom:0px;
+  width: 100%;
+  padding: 0px;
+  left: 0px;
+  background-color: #ff5050;
+  }
+
+  .bottomnav ul {
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    margin: auto;
+    padding: 10px;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .bottomnav li {
+    display: inline-block;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    align-content: center;
+    gap: 1rem;
+    margin: auto;
+  }
+
+   .bottomnav_icon {
+    text-align: center;
+    display: block;
+    bottom: auto;
+    font-size: 2rem;
+    z-index: 1;
+    position: relative;
+  }
+
+  .bottomnav_icon a {
+    text-align: center;
+    gap: 1rem;
+    display: block;
+    bottom: 10px;
+    font-size: 2rem;
+  }
+
+  /* Style the hamburger menu */
+  .bottomnav_icon a.icon {
+    background-color: #ff5050;
+    display: inline-block;
+    border-radius: 55%;
+    height: 100%;
+    font-size: 2rem;
+    overflow: hidden;
+  }
+
+  /* Hide the links inside the navigation menu (except for logo/home) */
+  .bottomnav #myLinks {
+    display: none;
+    text-align: center;
+    background-color: #ff5050;
+    flex-direction: center;
+    margin-bottom: 1rem;
+    justify-content: space-evenly;
+  }
+
+  .bottomnav a {
+  color: white;
+  font-size: 2rem;
+}
+
+  .spacer{
+  padding: 2.5rem;
+  display: block;
+  }
+
+  .user_grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0rem;
+    text-align: center;
+  }
+
+
+  .inner_user_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0px;
+  gap: 0rem;
+  }
+
+  .user_grid p {
+    display: grid;
+    gap: 0rem;
+    text-align: center;
+    margin: 0px 0px 0px 10px;
+  }
+
+  .user_grid a {
+    display: grid;
+    margin-bottom: 15px;
+    gap: 0rem;
+    text-align: center;
+    align-content: center;
+  }
+
+  div.admin_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  }
+
+  .splitnav {
+  background: #ff5050;
+}
+
+.splitnav ul {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-direction: center;
+}
+
+.splitnav li {
+  display: inline-block;
+  justify-content: center;
+  height: 100%;
+  width: 100%
+  text-align: center;
+  align-content: center;
+}
+
+.splitnav a {
+  height: 100%;
+  text-align: center;
+  display: block;
+  align-content: center;
+  font-size: 1.25rem;
+}
+}
+
+@media only screen and (min-width: 1500px) {
+  html {
+  font-family: sans-serif;
+  padding: 1rem;
+  background-image: url("images/keith-misner-h0Vxgz5tyXA-unsplash.jpg");
+  background-size: cover;
+  }
+
+  body {
+  max-width: 75%;
+  margin: 0 auto;
+  background: white;
+  opacity: 1;
+  }
+
+  h1 {
+  font-family: serif;
+  color: #377ba8;
+  margin: 1rem 0;
+  }
+
+   /* Style the navigation menu */
+  .topnav {
+    overflow: hidden;
+    background-color: #333;
+    position: relative;
+    margin: 0px;
+  }
+
+  /* Hide the links inside the navigation menu (except for logo/home) */
+  .topnav #myLinks {
+    display: none;
+  }
+
+  /* Style navigation menu links */
+  .topnav a {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+  }
+
+  /* Style the hamburger menu */
+  .topnav a.icon {
+    background: black;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  /* Add a grey background color on mouse-over */
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .topnav span {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+    align: centre;
+  }
+
+  /* Style the active link (or home/logo) */
+  .active {
+    background-color: #575957;
+    color: white;
+  }
+
+  .splitnav {
+  background: grey;
+}
+
+.splitnav ul {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.splitnav li {
+  display: inline-block;
+  justify-content: center;
+  height: 100%;
+  width: 100%
+  text-align: center;
+  align-content: center;
+}
+
+.splitnav a {
+  height: 100%;
+  text-align: center;
+  display: block;
+  align-content: center;
 }
 
 a {
   color: #377ba8;
 }
+
+  .bottomnav {
+  position: fixed;
+  bottom:0px;
+  margin-top: 30px;
+  margin-bottom:0px;
+  width: 100%;
+  padding: 0px;
+  left: 0px;
+  background-color: grey;
+  }
+
+  .bottomnav ul {
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    margin: auto;
+    padding: 10px;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .bottomnav li {
+    display: inline-block;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    align-content: center;
+    gap: 1rem;
+    margin: auto;
+  }
+
+   .bottomnav_icon {
+    text-align: center;
+    display: block;
+    bottom: auto;
+    font-size: 2rem;
+    z-index: 1;
+    position: relative;
+  }
+
+  .bottomnav_icon a {
+    text-align: center;
+    gap: 1rem;
+    display: block;
+    bottom: 10px;
+    font-size: 2rem;
+  }
+
+  /* Style the hamburger menu */
+  .bottomnav_icon a.icon {
+    background-color: grey;
+    display: inline-block;
+    border-radius: 55%;
+    height: 100%;
+    font-size: 2rem;
+    overflow: hidden;
+  }
+
+  /* Hide the links inside the navigation menu (except for logo/home) */
+  .bottomnav #myLinks {
+    display: none;
+    text-align: center;
+    background-color: grey;
+    flex-position: center;
+  }
+
+  .bottomnav a {
+  color: #377ba8;
+  font-size: 2rem;
+}
+
+  .spacer{
+  padding: 2.5rem;
+  display: block;
+  }
+
+  .user_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0px;
+  gap: 1rem;
+}
+
+.user_grid p {
+  display: grid;
+  gap: 1rem;
+  margin-left: 10px;
+}
+
+.user_grid a {
+  display: grid;
+  margin: 0px;
+  gap: 1rem;
+  text-align: center;
+  align-content: center;
+}
+
+.inner_user_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0px;
+  gap: 1rem;
+}
+
+.user_grid p {
+  display: grid;
+  gap: 1rem;
+  margin-left: 10px;
+}
+
+.user_grid a {
+  display: grid;
+  margin: 0px;
+  gap: 1rem;
+  text-align: center;
+  align-content: center;
+}
+
+.splitnav {
+  background: grey;
+}
+
+.splitnav ul {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.splitnav li {
+  display: inline-block;
+  justify-content: center;
+  height: 100%;
+  width: 100%
+  text-align: center;
+  align-content: center;
+}
+
+.splitnav a {
+  height: 100%;
+  text-align: center;
+  display: block;
+  align-content: center;
+}
+}
+
+
+
 
 hr {
   border: none;
@@ -31,6 +497,7 @@ hr {
 
 .content {
   padding: 0 1rem 1rem;
+  background: white;
 }
 
 .content > header {
@@ -108,98 +575,8 @@ input[type=submit] {
   min-width: 10em;
 }
 
- /* Style the navigation menu */
-.topnav {
-  overflow: hidden;
-  background-color: #333;
-  position: relative;
-  margin: 0px;
-}
-
-/* Hide the links inside the navigation menu (except for logo/home) */
-.topnav #myLinks {
-  display: none;
-}
-
-/* Style navigation menu links */
-.topnav a {
-  color: white;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  display: block;
-}
-
-/* Style the hamburger menu */
-.topnav a.icon {
-  background: black;
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-/* Add a grey background color on mouse-over */
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.topnav span {
-  color: white;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  display: block;
-  align: centre;
-}
-
-/* Style the active link (or home/logo) */
-.active {
-  background-color: #575957;
-  color: white;
-}
-
-.splitnav {
-  background: grey;
-}
-
-.splitnav ul {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.splitnav li {
-  display: inline-block;
-  justify-content: center;
-  height: 100%;
-  width: 100%
-  text-align: center;
-  align-content: center;
-}
-
-.splitnav a {
-  height: 100%;
-  text-align: center;
-  display: block;
-  align-content: center;
-}
-
 .home h1 {
   font-size: 1.5rem;
-}
-
-@media only screen and (max-width: 600px) {
-
-  div.admin_grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  }
 }
 
 .admin_grid {
@@ -240,79 +617,4 @@ input[type=submit] {
   grid-template-columns: 1.25fr 1.25fr 5fr;
   margin 0px;
   gap: 1rem;
-}
-
-.user_grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin: 0px;
-  gap: 1rem;
-}
-
-.user_grid p {
-  display: grid;
-  gap: 1rem;
-  margin-left: 10px;
-}
-
-.user_grid a {
-  display: grid;
-  margin: 0px;
-  gap: 1rem;
-  text-align: center;
-  align-content: center;
-}
-
-.inner_user_grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 0px;
-  gap: 1rem;
-}
-
-.user_grid p {
-  display: grid;
-  gap: 1rem;
-  margin-left: 10px;
-}
-
-.user_grid a {
-  display: grid;
-  margin: 0px;
-  gap: 1rem;
-  text-align: center;
-  align-content: center;
-}
-
-
-@media only screen and (max-width: 600px) {
-  .user_grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0rem;
-    text-align: center;
-  }
-
-
-  .inner_user_grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  margin: 0px;
-  gap: 0rem;
-  }
-
-  .user_grid p {
-    display: grid;
-    gap: 0rem;
-    text-align: center;
-    margin: 0px 0px 0px 10px;
-  }
-
-  .user_grid a {
-    display: grid;
-    margin-bottom: 15px;
-    gap: 0rem;
-    text-align: center;
-    align-content: center;
-  }
 }

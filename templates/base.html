@@ -7,28 +7,12 @@
 <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 
 <nav class="topnav">
-  <a href="{{ url_for('index') }}" class="active">Home</a>
-  <!-- Navigation links (hidden by default) -->
-  <div id="myLinks">
-    {% block navbar %}{% endblock %}
-    {% if g.user['is_admin'] == 1 %}
-      <a href="{{ url_for('admin.admin_home') }}">Admin Options</a>
-    {% endif %}
-    {% if g.user %}
-      <a href="{{ url_for('account.account', id=g.user['id']) }}">User Account</a>
-      <a href="{{ url_for('auth.logout') }}">Log Out</a>
-    {% else %}
-      <a href="{{ url_for('auth.register') }}">Register</a>
-      <a href="{{ url_for('auth.login') }}">Log In</a>
-    {% endif %}
+  <div class="container">
+    <a href="{{ url_for('index') }}" class="active">Wildcats</a>
   </div>
   <div class="splitnav">
-    {% block undernavbar %}{% endblock %}
+      {% block undernavbar %}{% endblock %}
   </div>
-  <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
-  <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
-    <i class="fa fa-bars"></i>
-  </a>
 </nav>
 
 <section class="content">
@@ -40,3 +24,35 @@
   {% endfor %}
   {% block content %}{% endblock %}
 </section>
+
+<bottomnav class="spacer" id="spacer">
+  <div class="bottomnav">
+    <div class="bottomnav_icon">
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+      <i class="fa fa-bars"></i>
+      </a>
+    </div>
+          <!-- Navigation links (hidden by default) -->
+  <div id="myLinks">
+    {% block navbar %}{% endblock %}
+    {% if g.user['is_admin'] == 1 %}
+      <a href="{{ url_for('admin.admin_home') }}" class="links">Admin Options</a>
+    {% endif %}
+    {% if g.user %}
+          <a href="{{ url_for('auth.logout') }}" class="links">Log Out</a>
+      <a href="{{ url_for('account.account', id=g.user['id']) }}" class="links">User Account</a>
+    {% else %}
+      <a href="{{ url_for('auth.register') }}" class="links">Register</a>
+      <a href="{{ url_for('auth.login') }}" class="links">Log In</a>
+    {% endif %}
+  </div>
+  </a>
+    <div class="bottomnav_fixed">
+    <ul>
+    <li><a href="{{ url_for('fixtures.upcoming_fixtures') }}">Fixtures</a></li>
+    <li><a href="{{ url_for('fixtures.all_results') }}">Results</a></li>
+    </ul>
+        <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+    </div>
+  </div>
+</bottomnav>
